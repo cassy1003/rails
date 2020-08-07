@@ -20,6 +20,8 @@ gem 'bcrypt'
 gem 'sorcery'
 gem 'typhoeus'
 
+gem 'mechanize'
+
 group :development, :test do
   gem 'dotenv-rails', require: 'dotenv/rails-now'
   gem 'byebug', platform: :mri
