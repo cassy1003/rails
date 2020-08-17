@@ -4,17 +4,17 @@ ruby '~> 2.7.1'
 
 gem 'rails', '~> 6.0.1'
 gem 'pg'
-gem 'puma', '~> 3.0'
+gem 'puma', '~> 4.1'
 
 gem 'config'
 
-gem 'sassc-rails'
-gem 'uglifier', '>= 1.3.0'
-gem 'autoprefixer-rails'
+# gem 'sassc-rails'
+# gem 'uglifier', '>= 1.3.0'
+# gem 'autoprefixer-rails'
 
-gem 'gon'
+# gem 'gon'
 
-gem 'material_icons'
+# gem 'material_icons'
 
 gem 'bcrypt'
 gem 'sorcery'
