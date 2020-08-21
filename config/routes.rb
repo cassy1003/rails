@@ -6,7 +6,10 @@ Rails.application.routes.draw do
   get 'signin' => 'user_sessions#new'
   post 'signout' => 'user_sessions#destroy'
 
+  get 'dashboard' => 'dashboard#index'
   namespace :dashboard do
     get 'index'
   end
+
+  get 'auth/callback/:key' => 'user_sessions#callback'
 end
