@@ -8,7 +8,7 @@ gem 'puma', '~> 4.1'
 
 gem 'config'
 
-# gem 'sassc-rails'
+gem 'sassc-rails'
 # gem 'uglifier', '>= 1.3.0'
 # gem 'autoprefixer-rails'
 
