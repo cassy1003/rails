@@ -20,9 +20,13 @@
     <%#= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body class="bg-default" id="<%= controller_name %>">
-    <%= render "parts/nav" %>
-    <%= yield %>
-    <%= render 'parts/footer' %>
+  <body class="bg-neutral" id="<%= controller_name %>">
+    <%= render "dashboard/parts/sidebar" %>
+    <!-- Main content -->
+    <div class="main-content" id="panel">
+      <%= render "#{controller_name}/parts/nav" %>
+      <%= yield %>
+      <%= render 'parts/footer' %>
+    </div>
   </body>
 </html>

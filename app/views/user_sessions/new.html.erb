@@ -1,9 +1,7 @@
-<%= render "#{controller_name}/parts/nav" %>
-
 <!-- Main content -->
 <div class="main-content">
   <!-- Header -->
-  <div class="header bg-gradient-owners py-7 py-lg-8 pt-lg-9">
+  <div class="header bg-gradient-owners py-7">
     <div class="container">
       <div class="header-body text-center mb-7">
         <div class="row justify-content-center">
@@ -34,7 +32,7 @@
                 <span class="btn-inner--text">Github</span>
               </a>
               %>
-            <a href="<%= @base_auth_url %>" class="btn btn-neutral btn-icon">
+              <a href="<%= @base_auth_url %>" class="btn btn-neutral btn-icon">
                 <span class="btn-inner--icon">
                   <%= image_tag 'base.png' %>
                 </span>
@@ -88,5 +86,3 @@
     </div>
   </div>
 </div>
-
-<%= render 'parts/footer' %>

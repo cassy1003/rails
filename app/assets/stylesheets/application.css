@@ -18,10 +18,15 @@
   background: linear-gradient(87deg, #0BA299 0, #0BA299 400px, #2dcecc 100%) !important;
 }
 
-.navbar-horizontal .navbar-brand img {
+.navbar-horizontal .navbar-brand img,
+.navbar-expand .navbar-brand img {
   height: 60px
 }
 
 .navbar-vertical .navbar-brand-img, .navbar-vertical .navbar-brand > img {
   max-height: 4rem;
+}
+
+.navbar-top .navbar-brand {
+  display: block;
 }
