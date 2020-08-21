@@ -8,15 +8,18 @@ class UserSessionsController < ApplicationController
 
   def callback
     if params[:code]
-      response = Typhoeus.post(base_api_url('oauth/token'), body: {
+      request = Typhoeus.post(base_api_url('oauth/token'), params: {
         grant_type: 'authorization_code',
         client_id: ENV['BASE_CLIENT_ID'],
         client_secret: ENV['BASE_CLIENT_SECRET'],
         code: params[:code],
         redirect_uri: base_callback_url
       })
-      session[:base_access_token] = response[:access_token]
-      session[:base_refresh_token] = response[:refresh_token]
+      response = JSON.parse(request.response_body)
+      session[:base_access_token] = response['access_token']
+      session[:base_access_token_expired_at] = 1.hour.since
+      session[:base_refresh_token] = response['refresh_token']
+      session[:base_refresh_token_expired_at] = 30.days.since
       session[:base_auth_code] = params[:code]
     end
     redirect_to dashboard_index_path
@@ -33,7 +36,8 @@ class UserSessionsController < ApplicationController
   end
 
   def base_callback_url
-    'https%3A%2F%2Fowners-dev.herokuapp.com%2Fauth%2Fcallback%2Fbase'
+    #'https%3A%2F%2Fowners-dev.herokuapp.com%2Fauth%2Fcallback%2Fbase'
+    'https://owners-dev.herokuapp.com/auth/callback/base'
   end
 
 end
