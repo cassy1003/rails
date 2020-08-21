@@ -1,6 +1,10 @@
 class UserSessionsController < ApplicationController
   def new
-    @base_auth_url = "#{base_api_url('oauth/authorize')}?response_type=code&client_id=#{ENV['BASE_CLIENT_ID']}&redirect_uri=#{base_callback_url}&scope=read_users%20read_items%20read_orders"
+    @base_auth_url = if Rails.env.production?
+                       "#{base_api_url('oauth/authorize')}?response_type=code&client_id=#{ENV['BASE_CLIENT_ID']}&redirect_uri=#{base_callback_url}&scope=read_users%20read_items%20read_orders"
+                     else
+                       dashboard_index
+                     end
   end
 
   def create
