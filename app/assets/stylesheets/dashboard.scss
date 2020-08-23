@@ -3,4 +3,24 @@
     max-width: 1000px;
     margin: auto;
   }
+
+  .main-content {
+    margin-left: 0px !important;
+    transition: margin-left .4s;
+  }
+
+  .sidenav {
+    transform: translateX(-250px);
+  }
+
+  &.nav-open {
+    .main-content {
+      margin-left: 250px !important;
+    }
+
+    .sidenav {
+      transform: translateX(0px);
+    }
+  }
 }
+
