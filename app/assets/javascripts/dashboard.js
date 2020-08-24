@@ -828,11 +828,24 @@ var BarsChart = (function() {
     // Create chart
     var ordersChart = new Chart($chart, {
       type: 'bar',
+      options: {
+        scales: {
+          /*
+          yAxes: [{
+            gridLines: {
+              lineWidth: 1,
+              color: Charts.colors.gray[900],
+              zeroLineColor: Charts.colors.gray[900]
+            },
+          }]
+          */
+        },
+      },
       data: {
-        labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         datasets: [{
           label: 'Sales',
-          data: [25, 20, 30, 22, 17, 29]
+          data: [2500, 2000, 3000, 2200, 1700, 2900, 3500]
         }]
       }
     });
@@ -878,9 +891,7 @@ var SalesChart = (function() {
             },
             ticks: {
               callback: function(value) {
-                if (!(value % 10)) {
-                  return '$' + value + 'k';
-                }
+                return value + 'k';
               }
             }
           }]
@@ -888,6 +899,8 @@ var SalesChart = (function() {
         tooltips: {
           callbacks: {
             label: function(item, data) {
+              return item.yLabel + 'k';
+              /*
               var label = data.datasets[item.datasetIndex].label || '';
               var yLabel = item.yLabel;
               var content = '';
@@ -898,15 +911,16 @@ var SalesChart = (function() {
 
               content += '<span class="popover-body-value">$' + yLabel + 'k</span>';
               return content;
+              */
             }
           }
         }
       },
       data: {
-        labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        labels: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
         datasets: [{
-          label: 'Performance',
-          data: [0, 20, 10, 30, 15, 40, 20, 60, 60]
+          label: 'Sales',
+          data: [10, 20, 10, 25, 23, 18, 20, 25, 18, 15, 25, 10]
         }]
       }
     });
