@@ -213,13 +213,14 @@
         <li class="nav-item dropdown">
           <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <div class="media align-items-center">
-              <%#
-              <span class="avatar avatar-sm rounded-circle">
-                <img alt="Image placeholder" src="../assets/img/theme/team-4.jpg">
-              </span>
-              %>
-              <i class="ni ni-single-02 text-yellow"></i>
-              <div class="media-body  ml-2  d-none d-lg-block">
+              <% if false && @base_profile['user']['logo'].present? %>
+                <span class="avatar <%# avatar-sm rounded-circle %>">
+                  <img alt="Image placeholder" src="<%= @base_profile['user']['logo'] %>">
+                </span>
+              <% else %>
+                <i class="ni ni-shop text-yellow"></i>
+              <% end %>
+              <div class="media-body ml-2 d-none d-lg-block">
                 <span class="mb-0 text-sm  font-weight-bold"><%= @base_profile['user']['shop_name'] %></span>
               </div>
             </div>

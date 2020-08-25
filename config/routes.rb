@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get 'dashboard' => 'dashboard#index'
   namespace :dashboard do
     get 'index'
+    get 'items'
   end
 
   get 'auth/callback/:key' => 'user_sessions#callback'

@@ -24,16 +24,28 @@ module BaseConcern
       grant_type: 'refresh_token',
       client_id: ENV['BASE_CLIENT_ID'],
       client_secret: ENV['BASE_CLIENT_SECRET'],
-      refresh_token: session[:base_refresh_token],
+      refresh_token: ENV['BASE_REFRESH_TOKEN'] || session[:base_refresh_token],
       redirect_uri: base_callback_url
     })
     save_session(request.response_body)
   end
 
   def base_profile
-    request = Typhoeus.get(base_api_url('users/me'), headers: {Authorization: "Bearer #{session[:base_access_token]}"})
-    p request.response_body
+    request = Typhoeus.get(base_api_url('users/me'), headers: auth_header)
     @base_profile = JSON.parse(request.response_body)
+  end
+
+  def base_items
+    request = Typhoeus.get(base_api_url('items'), headers: auth_header, params: {
+      order: 'modified', # list_order / created / modified
+      sort: 'desc', # asc / desc
+    })
+    @base_items = JSON.parse(request.response_body)
+  end
+
+  def base_orders
+    request = Typhoeus.get(base_api_url('orders'), headers: auth_header)
+    @base_orders = JSON.parse(request.response_body)
   end
 
   private
@@ -59,6 +71,10 @@ module BaseConcern
     session[:base_access_token_expired_at] = 1.hour.since
     session[:base_refresh_token] = response['refresh_token']
     session[:base_refresh_token_expired_at] = 30.days.since
+  end
+
+  def auth_header
+    {Authorization: "Bearer #{session[:base_access_token]}"}
   end
 
 end

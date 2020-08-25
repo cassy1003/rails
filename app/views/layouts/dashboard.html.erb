@@ -23,7 +23,8 @@
     <%= render "dashboard/parts/sidebar" %>
     <!-- Main content -->
     <div class="main-content" id="panel">
-      <%= render "#{controller_name}/parts/nav" %>
+      <%= render 'dashboard/parts/nav' %>
+      <%= render 'dashboard/parts/header' %>
       <%= yield %>
       <%= render 'parts/footer' %>
     </div>

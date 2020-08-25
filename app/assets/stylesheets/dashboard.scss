@@ -22,5 +22,47 @@
       transform: translateX(0px);
     }
   }
+
+  .avatar {
+    background-color: white;
+  }
+
+  #items_table.table{
+    td, th {
+      white-space: normal;
+      padding-right: 0;
+    }
+    td:last-child {
+      padding-left: 0;
+    }
+
+    .item_base_id {
+      min-width: 100px;
+    }
+    .item_images {
+      min-width: 160px;
+    }
+    .item_updated_at {
+      min-width: 135px;
+    }
+  }
 }
 
+@media (max-width: 990px) {
+  #dashboard {
+    #items_table.table{
+      .item_images {
+        display: none;
+      }
+    }
+  }
+}
+@media (max-width: 767px) {
+  #dashboard {
+    #items_table.table{
+      .item_updated_at {
+        min-width: 0;
+      }
+    }
+  }
+}
