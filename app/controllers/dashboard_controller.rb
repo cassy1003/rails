@@ -6,12 +6,15 @@ class DashboardController < ApplicationController
   before_action :base_profile
 
   def index
-    base_items
     base_orders
   end
 
   def items
     base_items
+  end
+
+  def orders
+    base_orders
   end
 
   private

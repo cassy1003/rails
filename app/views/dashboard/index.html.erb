@@ -59,7 +59,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-xl-6">
+      <div class="col-xl-12">
         <div class="card">
           <div class="card-header border-0">
             <div class="row align-items-center">
@@ -78,21 +78,84 @@
                 <tr>
                   <th scope="col">Order Date</th>
                   <th scope="col">Status</th>
-                  <th scope="col">Item Name</th>
+                  <th scope="col">Customer Name</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Payment</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @base_orders['orders'].each do |order| %>
+                <tr>
+                  <th scope="row">
+                    <%= Time.at(order['ordered']).strftime('%Y/%m/%d %H:%M') %>
+                  </th>
+                  <td>
+                    <%= order['dispatch_status'] %>
+                  </td>
+                  <td>
+                    <%= order['last_name'] + ' ' + order['first_name'] %>
+                  </td>
+                  <td>
+                    <%= order['total'].to_s(:delimited) %>
+                  </td>
+                  <td>
+                    <%= order['payment'] %>
+                  </td>
+                  <td class="text-right">
+                    <a href="/dashboard/order/<%= order['unique_key'] %>">
+                      <i class="ni ni-bold-right"></i>
+                    </a>
+                  </td>
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-6">
+        <div class="card">
+          <div class="card-header border-0">
+            <div class="row align-items-center">
+              <div class="col">
+                <h3 class="mb-0">Sales List</h3>
+              </div>
+              <div class="col text-right">
+                <a href="#!" class="btn btn-sm btn-primary">See all</a>
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <!-- Projects table -->
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Year/Month</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Profit</th>
+                  <th scope="col">Profit Rate</th>
                 </tr>
               </thead>
               <tbody>
                 <% d = 1.day.ago %>
-                <% 5.times do |i| %>
+                <% 12.times do |i| %>
+                <% p = rand(20000..50000) %>
+                <% r = rand(70..80) + rand(9) / 10.0 %>
                 <tr>
                   <th scope="row">
-                    <%= d.ago(i * 372.minutes).strftime('%Y/%m/%d %H:%M') %>
+                    <%= d.ago(i.month).strftime('%Y/%m') %>
                   </th>
                   <td>
-                    <%= ['Not yet', 'Doing', 'Delivery', 'Completed'][i % 4] %>
+                    ¥<%= p.to_s(:delimited) %>
                   </td>
                   <td>
-                    Item Name <%= i %>-<%= ('A'..'Z').to_a[rand(26)] %>
+                    ¥<%= (p * r / 100).to_i.to_s(:delimited) %>
+                  </td>
+                  <td>
+                    <%= r %>%
                   </td>
                 </tr>
                 <% end %>
@@ -140,56 +203,6 @@
                   <td>
                     <% r = [4, 1, 5, 2, 6][i] %>
                     Rank <%= r %> <i class="fas fa-arrow-<%= i + 1 < r ? 'up' : 'down' %> text-<%= i + 1 < r ? 'success' : 'warning' %> ml-3"></i>
-                  </td>
-                </tr>
-                <% end %>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xl-12">
-        <div class="card">
-          <div class="card-header border-0">
-            <div class="row align-items-center">
-              <div class="col">
-                <h3 class="mb-0">Sales List</h3>
-              </div>
-              <div class="col text-right">
-                <a href="#!" class="btn btn-sm btn-primary">See all</a>
-              </div>
-            </div>
-          </div>
-          <div class="table-responsive">
-            <!-- Projects table -->
-            <table class="table align-items-center table-flush">
-              <thead class="thead-light">
-                <tr>
-                  <th scope="col">Year/Month</th>
-                  <th scope="col">Price</th>
-                  <th scope="col">Profit</th>
-                  <th scope="col">Profit Rate</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% d = 1.day.ago %>
-                <% 12.times do |i| %>
-                <% p = rand(20000..50000) %>
-                <% r = rand(70..80) + rand(9) / 10.0 %>
-                <tr>
-                  <th scope="row">
-                    <%= d.ago(i.month).strftime('%Y/%m') %>
-                  </th>
-                  <td>
-                    ¥<%= p.to_s(:delimited) %>
-                  </td>
-                  <td>
-                    ¥<%= (p * r / 100).to_i.to_s(:delimited) %>
-                  </td>
-                  <td>
-                    <%= r %>%
                   </td>
                 </tr>
                 <% end %>
