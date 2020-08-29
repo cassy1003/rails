@@ -609,7 +609,7 @@ var NavbarCollapse = (function() {
 
     }
 
-  });
+  }).click();
 
 })();
 
