@@ -22,4 +22,5 @@ test:
 production:
   <<: *default
   database: postrgres
+  url: <%= ENV['DATABASE_URL'] %>
   #database: db_production
