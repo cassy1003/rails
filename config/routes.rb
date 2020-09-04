@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
-  get 'user_sessions/new'
-  get 'user_sessions/create'
-  get 'users/new'
-  get 'users/create'
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  root 'user_sessions#new'
+
+  resources :users, only: [:new, :create]
+  resources :user_sessions
+  get 'signup' => 'users#new'
+  get 'signin' => 'user_sessions#new'
+  post 'signout' => 'user_sessions#destroy'
 end
