@@ -1,6 +1,7 @@
 class DashboardController < ApplicationController
   include BaseConcern
 
+  before_action :require_login
   before_action :check_expired
   before_action :load_access_token
   before_action :base_profile

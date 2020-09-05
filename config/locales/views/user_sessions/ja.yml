@@ -1,0 +1,13 @@
+ja:
+  user_sessions:
+    new:
+      title: OWNER'S ツール
+      description_html: ショップ運営に必要な商品登録・在庫照会・発注などを<br>簡単に行うためのツールです
+      signup_link_html: 登録がまだの方は<a href='/signup'>コチラ</a>から登録してください。
+      signin: ログイン
+      forgot_password: パスワードをお忘れですか？
+
+      placeholder:
+        email: メールアドレス
+        password: パスワード
+

@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :user_sessions
   get 'signup' => 'users#new'
   get 'signin' => 'user_sessions#new'
-  post 'signout' => 'user_sessions#destroy'
+  get 'signout' => 'user_sessions#destroy'
 
   get 'dashboard' => 'dashboard#index'
   namespace :dashboard do

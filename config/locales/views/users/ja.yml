@@ -1,0 +1,20 @@
+ja:
+  users:
+    new:
+      title:
+        admin: 管理者登録
+        member: メンバー登録
+      description:
+        admin: 登録後、他の管理者に承認されるまでお待ちください。
+        member: 登録後、管理者に承認されるまでお待ちください。
+      signup: 登録
+
+      placeholder:
+        name: 山田 太郎
+        email: owners@example.com
+        password: 8文字以上
+        password_confirmation: 再度入力してください
+        term: 2
+        line_name: やまだ
+        facebook_name: Taro Yamada
+
