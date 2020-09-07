@@ -14,5 +14,6 @@ module EneProfile
     config.time_zone = 'Asia/Tokyo'
 
     config.autoload_paths += Dir["#{config.root}/app/models/**/"]
+    config.autoload_paths += %W(#{config.root}/lib)
   end
 end

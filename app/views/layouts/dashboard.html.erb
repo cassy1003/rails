@@ -21,11 +21,22 @@
 
   <body class="bg-secondary" id="<%= controller_name %>">
     <%= render "dashboard/parts/sidebar" %>
+
     <!-- Main content -->
     <div class="main-content" id="panel">
       <%= render 'dashboard/parts/nav' %>
-      <%= render 'dashboard/parts/header' %>
+
+      <!-- Header -->
+      <div class="header bg-gradient-owners pb-6">
+        <div class="container-fluid">
+          <div class="header-body">
+            <%= yield :header_body %>
+          </div>
+        </div>
+      </div>
+
       <%= yield %>
+
       <%= render 'parts/footer' %>
     </div>
   </body>

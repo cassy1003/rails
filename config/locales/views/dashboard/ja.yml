@@ -1,0 +1,6 @@
+ja:
+  dashboard:
+    shops:
+      new:
+        title: BASEショップを新規登録
+        description: 下のボタンよりBASEアカウントの認証を行ってください

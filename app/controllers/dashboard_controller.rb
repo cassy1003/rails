@@ -2,11 +2,12 @@ class DashboardController < ApplicationController
   include BaseConcern
 
   before_action :require_login
-  before_action :check_expired
-  before_action :load_access_token
-  before_action :base_profile
+  #before_action :load_access_token
+  #before_action :base_profile
+  #
 
   def index
+    # redirect_to action: :shops if current_user.shops.blank?
     base_orders
   end
 
@@ -18,17 +19,37 @@ class DashboardController < ApplicationController
     base_orders
   end
 
-  private
-
-  def check_expired
-    if (session[:base_refresh_token].nil? || session[:base_refresh_token_expired_at] < Time.zone.now) && ENV['BASE_REFRESH_TOKEN'].nil?
-      redirect_to root_path
-    end
+  def shops
+    @shops = current_user.shops
+    @base_auth_url = Base::Api.auth_url #base_auth_url
   end
 
-  def load_access_token
-    if ENV['BASE_REFRESH_TOKEN'].present? || session[:base_access_token_expired_at] < Time.zone.now
-      base_auth_with_refresh_token
+  def base_auth_callback
+    if params[:code]
+      res = base_auth_with_code
+      Shop.new(
+        base_access_token: res['access_token'],
+        base_access_token_expires_at: 1.hour.since,
+        base_refresh_token: res['refresh_token'],
+        base_refresh_token_expires_at: 30.days.since
+      )
+      profile = base_profile
+
+    end
+    redirect_to dashboard_index_path
+  end
+
+  private
+
+  def load_access_token(shop)
+    if shop.base_access_token_expired?
+      res = base_auth_with_refresh_token
+      shop.new(
+        base_access_token: res['access_token'],
+        base_access_token_expires_at: 1.hour.since,
+        base_refresh_token: res['refresh_token'],
+        base_refresh_token_expires_at: 30.days.since
+      )
     end
   end
 end

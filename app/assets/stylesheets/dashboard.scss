@@ -46,6 +46,22 @@
       min-width: 135px;
     }
   }
+
+  .nav-item .nav-link.active.active-pro {
+    position: absolute;
+    bottom: 10px;
+
+    width: 100%;
+    margin-left: 0 !important;
+    padding-left: 25px !important;
+
+    border-radius: 0 !important;
+    background: #f6f9fc;
+  }
+
+  .base-link.btn-icon .btn-inner--icon img {
+    width: 110px;
+  }
 }
 
 @media (max-width: 990px) {

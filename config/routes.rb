@@ -12,7 +12,8 @@ Rails.application.routes.draw do
     get 'index'
     get 'items'
     get 'orders'
+    get 'shops'
   end
 
-  get 'auth/callback/:key' => 'user_sessions#callback'
+  get 'auth/callback/:key' => 'dashboard#base_auth_callback'
 end
