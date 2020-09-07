@@ -7,6 +7,8 @@ class CreateOrders < ActiveRecord::Migration[6.0]
       t.datetime :cancelled_at
       t.datetime :dispatched_at
       t.integer :payment
+      t.string :first_name
+      t.string :last_name
       t.integer :price
       t.date :delivery_date
       t.integer :status

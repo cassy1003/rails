@@ -10,10 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_06_130127) do
+ActiveRecord::Schema.define(version: 2020_09_07_093617) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "orders", force: :cascade do |t|
+    t.bigint "shop_id", null: false
+    t.string "key"
+    t.datetime "ordered_at"
+    t.datetime "cancelled_at"
+    t.datetime "dispatched_at"
+    t.integer "payment"
+    t.string "first_name"
+    t.string "last_name"
+    t.integer "price"
+    t.date "delivery_date"
+    t.integer "status"
+    t.datetime "modified_at"
+    t.string "subscription_key"
+    t.integer "subscription_repeat_number"
+    t.integer "subscription_repeat_times"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["shop_id"], name: "index_orders_on_shop_id"
+  end
 
   create_table "shop_users", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -58,6 +79,7 @@ ActiveRecord::Schema.define(version: 2020_09_06_130127) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "orders", "shops"
   add_foreign_key "shop_users", "shops"
   add_foreign_key "shop_users", "users"
   add_foreign_key "users", "users", column: "approved_by_id"

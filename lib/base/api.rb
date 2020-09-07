@@ -64,12 +64,16 @@ class Base::Api
         limit: limit,
         offset: offset
       })
-      JSON.parse(request.response_body)
+      JSON.parse(request.response_body)['items']
     end
 
-    def orders(access_token)
-      request = Typhoeus.get(base_api_url('orders'), headers: auth_header(access_token))
-      JSON.parse(request.response_body)
+    def orders(access_token, start, limit, offset)
+      request = Typhoeus.get(base_api_url('orders'), headers: auth_header(access_token), params: {
+        start_ordered: start,
+        limit: limit,
+        offset: offset
+      })
+      JSON.parse(request.response_body)['orders']
     end
 
     private
