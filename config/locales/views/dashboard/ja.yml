@@ -1,6 +1,9 @@
 ja:
   dashboard:
-    shops:
-      new:
+    index:
+      shop_new: &shop_new
         title: BASEショップを新規登録
         description: 下のボタンよりBASEアカウントの認証を行ってください
+        notice: 初回連携時は、商品リストや過去の受注情報を取得するため、時間がかかります
+    shops:
+      new: *shop_new
