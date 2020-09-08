@@ -2,9 +2,15 @@ class DashboardController < ApplicationController
   before_action :require_login
 
   def index
-    @shop = nil #current_user.shops.first
-    @base_auth_url = Base::Api.auth_url if @shop.nil?
-    @base_orders = { 'orders' => [] }
+    @shop = current_user.shops.first
+
+    if @shop.present?
+      @orders = @shop.orders.order(modified_at: 'DESC').first(10)
+      @daily_order_count = @shop.daily_order_count
+      @monthly_order_count = @shop.monthly_order_count
+    else
+      @base_auth_url = Base::Api.auth_url
+    end
 
     # redirect_to action: :shops if current_user.shops.blank?
     #base_orders
@@ -52,17 +58,15 @@ class DashboardController < ApplicationController
     # end
 
     offset = 0
-    limit = 1
+    limit = 100
     orders = []
     loop do
       res = Base::Api.orders(shop.latest_access_token, '2019-01-01', limit, offset)
       orders += res
-      break
-      break if res.count < limit# && orders.count >= 2000
+      break if res.count < limit
       offset += limit
     end
-    orders.each {|order| shop.create_order_by_res(order)}
-    binding.pry
+    orders.reverse_each {|order| shop.create_order_by_res(order)}
 
     redirect_to dashboard_path
   end

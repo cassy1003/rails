@@ -23,4 +23,11 @@ class Shop < ApplicationRecord
     order = Order.find_or_initialize_by_res(res)
     order.update(shop_id: id) if order.new_record?
   end
+
+  def daily_order_count
+    orders.group("date(ordered_at)").order(:date_ordered_at).count.map {|k, v| [k.strftime('%Y/%m/%d'), v]}
+  end
+
+  def monthly_order_count
+    orders.group('(EXTRACT(YEAR FROM ordered_at))::integer').group('(EXTRACT(MONTH FROM ordered_at))::integer').order('2, 3').count.map { |k, n| [k.join('/'), n] }
 end
