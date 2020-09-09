@@ -23,6 +23,24 @@ class Order < ApplicationRecord
     shipping: 5
   }
 
+  scope :valid, -> { where.not(status: :cancelled) }
+
+  scope :ordered, -> { order(:ordered_at) }
+
+  scope :progressing, -> { where.not(status: [:cancelled, :dispatched]).ordered }
+
+  scope :daily, -> {
+    group("to_char(ordered_at, 'YYYY/MM/DD')").group(:status).order(:to_char_ordered_at_yyyy_mm_dd)
+  }
+
+  scope :monthly, -> {
+    group("to_char(ordered_at, 'YYYY/MM')").group(:status).order(:to_char_ordered_at_yyyy_mm)
+  }
+
+  scope :yearly, -> {
+    group("to_char(ordered_at, 'YYYY')").group(:status).order(:to_char_ordered_at_yyyy)
+  }
+
   def self.find_or_initialize_by_res(res)
     find_or_initialize_by(key: res['unique_key']) do |order|
       order.ordered_at = Time.zone.at(res['ordered'])

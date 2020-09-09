@@ -10,10 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_07_093617) do
+ActiveRecord::Schema.define(version: 2020_09_09_151510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "items", force: :cascade do |t|
+    t.bigint "shop_id", null: false
+    t.string "key"
+    t.string "name"
+    t.string "detail"
+    t.integer "price"
+    t.integer "proper_price"
+    t.integer "tax_type"
+    t.integer "stock"
+    t.integer "visible"
+    t.integer "display_order"
+    t.string "images", array: true
+    t.datetime "modified_at"
+    t.jsonb "variations"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["shop_id"], name: "index_items_on_shop_id"
+  end
 
   create_table "orders", force: :cascade do |t|
     t.bigint "shop_id", null: false
@@ -59,6 +78,8 @@ ActiveRecord::Schema.define(version: 2020_09_07_093617) do
     t.datetime "base_refresh_token_expires_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "order_updated_at"
+    t.datetime "item_updated_at"
   end
 
   create_table "users", force: :cascade do |t|
@@ -79,6 +100,7 @@ ActiveRecord::Schema.define(version: 2020_09_07_093617) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "items", "shops"
   add_foreign_key "orders", "shops"
   add_foreign_key "shop_users", "shops"
   add_foreign_key "shop_users", "users"

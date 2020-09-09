@@ -5,15 +5,42 @@ class DashboardController < ApplicationController
     @shop = current_user.shops.first
 
     if @shop.present?
+      now = DateTime.now
+      update_date = @shop.orders.progressing.first.try(:ordered_at) ||
+                    @shop.orders.ordered.last.try(:ordered_at) ||
+                    now.yesterday
+      if @shop.order_updated_at.nil? || @shop.order_updated_at < now - 3.hours
+        update_orders(update_date.strftime('%Y-%m-%d'))
+      end
+
       @orders = @shop.orders.order(modified_at: 'DESC').first(10)
-      @daily_order_count = @shop.daily_order_count
-      @monthly_order_count = @shop.monthly_order_count
+      @orders_summary = @shop.orders_summary
+
+      daily_price = @orders_summary[:daily][:price]
+      monthly_price = @orders_summary[:monthly][:price]
+      yearly_price = @orders_summary[:yearly][:price]
+      @profits = {
+        today: calc_profit(daily_price, now, '%Y/%m/%d').to_s(:delimited),
+        yesterday: calc_profit(daily_price, now.yesterday, '%Y/%m/%d').to_s(:delimited),
+        this_month: calc_profit(monthly_price, now, '%Y/%m').to_s(:delimited),
+        last_month: calc_profit(monthly_price, (now - 1.month), '%Y/%m').to_s(:delimited),
+        this_year: calc_profit(yearly_price, now, '%Y').to_s(:delimited),
+        last_year: calc_profit(yearly_price, (now - 1.year), '%Y').to_s(:delimited)
+      }
+      gon.orders_summary = {
+        daily: {
+          labels: (0...7).map {|n| (now - (7 - n).days).strftime('%-m/%-d')},
+          data: (0...7).map {|n| calc_profit(daily_price, (now - (7 - n).days), '%Y/%m/%d')},
+        },
+        monthly: {
+          labels: (0...12).map {|n| (now - (12 - n).months).strftime('%Y/%-m')},
+          data: (0...12).map {|n| calc_profit(monthly_price, (now - (12 - n).months), '%Y/%m')},
+        }
+      }
+        @orders_summary
     else
       @base_auth_url = Base::Api.auth_url
     end
-
-    # redirect_to action: :shops if current_user.shops.blank?
-    #base_orders
   end
 
   def items
@@ -43,31 +70,49 @@ class DashboardController < ApplicationController
                Base::Api.auth_with_refresh_token(ENV['BASE_REFRESH_TOKEN'])
              end
     shop_params = Base::Api.profile(tokens[:base_access_token])
-    shop = Shop.find_or_initialize_by(base_id: shop_params[:base_id])
-    shop.update(shop_params.merge(tokens))
-    ShopUser.find_or_create_by(user: current_user, shop: shop, role: :admin)
+    @shop = Shop.find_or_initialize_by(base_id: shop_params[:base_id])
+    @shop.update(shop_params.merge(tokens))
+    ShopUser.find_or_create_by(user: current_user, shop: @shop, role: :admin)
 
-    # offset = 0
-    # limit = 100
-    # items = []
-    # loop do
-    #   res = Base::Api.items(shop.latest_access_token, 'list_order', 'asc', limit, offset)['items']
-    #   items += res
-    #   break if res.count < limit && items.count >= 2000
-    #   offset += limit
-    # end
+    update_items
 
+    update_orders
+
+    redirect_to dashboard_path
+  end
+
+  private
+
+  def calc_profit(prices, date, format)
+    (prices[date.strftime(format)].try(:values) || [0]).inject(:+)
+  end
+
+  def update_orders(date = '2019-01-01')
     offset = 0
     limit = 100
     orders = []
     loop do
-      res = Base::Api.orders(shop.latest_access_token, '2019-01-01', limit, offset)
+      res = Base::Api.orders(@shop.latest_access_token, date, limit, offset)
       orders += res
       break if res.count < limit
       offset += limit
     end
-    orders.reverse_each {|order| shop.create_order_by_res(order)}
+    orders.reverse_each {|order| @shop.create_order_by_res(order)}
+    @shop.update(order_updated_at: DateTime.now)
+  end
 
-    redirect_to dashboard_path
+  def update_items
+    offset = 0
+    limit = 100
+    items = []
+    loop do
+      break
+      res = Base::Api.items(@shop.latest_access_token, 'list_order', 'asc', limit, offset)
+      items += res
+      break if res.count < limit || offset >= 2000
+      offset += limit
+    end
+    items.each {|item| @shop.create_item_by_res(item)}
+    @shop.update(item_updated_at: DateTime.now)
   end
 end

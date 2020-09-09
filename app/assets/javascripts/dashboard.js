@@ -842,10 +842,10 @@ var BarsChart = (function() {
         },
       },
       data: {
-        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        labels: gon.orders_summary.daily.labels,
         datasets: [{
           label: 'Sales',
-          data: [2500, 2000, 3000, 2200, 1700, 2900, 3500]
+          data: gon.orders_summary.daily.data
         }]
       }
     });
@@ -889,18 +889,21 @@ var SalesChart = (function() {
               color: Charts.colors.gray[900],
               zeroLineColor: Charts.colors.gray[900]
             },
+            /*
             ticks: {
               callback: function(value) {
                 return value + 'k';
               }
             }
+            */
           }]
         },
+        /*
         tooltips: {
           callbacks: {
             label: function(item, data) {
               return item.yLabel + 'k';
-              /*
+
               var label = data.datasets[item.datasetIndex].label || '';
               var yLabel = item.yLabel;
               var content = '';
@@ -911,16 +914,17 @@ var SalesChart = (function() {
 
               content += '<span class="popover-body-value">$' + yLabel + 'k</span>';
               return content;
-              */
             }
           }
         }
+        */
       },
       data: {
-        labels: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+        //labels: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+        labels: gon.orders_summary.monthly.labels,
         datasets: [{
           label: 'Sales',
-          data: [10, 20, 10, 25, 23, 18, 20, 25, 18, 15, 25, 10]
+          data: gon.orders_summary.monthly.data
         }]
       }
     });
