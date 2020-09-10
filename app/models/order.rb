@@ -30,15 +30,15 @@ class Order < ApplicationRecord
   scope :progressing, -> { where.not(status: [:cancelled, :dispatched]).ordered }
 
   scope :daily, -> {
-    group("to_char(ordered_at, 'YYYY/MM/DD')").group(:status).order(:to_char_ordered_at_yyyy_mm_dd)
+    group("to_char(ordered_at AT TIME ZONE 'UTC' AT TIME ZONE 'JST', 'YYYY/MM/DD')").group(:status).order(:to_char_ordered_at_at_time_zone_utc_at_time_zone_jst_yyyy_mm_dd)
   }
 
   scope :monthly, -> {
-    group("to_char(ordered_at, 'YYYY/MM')").group(:status).order(:to_char_ordered_at_yyyy_mm)
+    group("to_char(ordered_at AT TIME ZONE 'UTC' AT TIME ZONE 'JST', 'YYYY/MM')").group(:status).order(:to_char_ordered_at_at_time_zone_utc_at_time_zone_jst_yyyy_mm)
   }
 
   scope :yearly, -> {
-    group("to_char(ordered_at, 'YYYY')").group(:status).order(:to_char_ordered_at_yyyy)
+    group("to_char(ordered_at AT TIME ZONE 'UTC' AT TIME ZONE 'JST', 'YYYY')").group(:status).order(:to_char_ordered_at_at_time_zone_utc_at_time_zone_jst_yyyy)
   }
 
   def self.find_or_initialize_by_res(res)

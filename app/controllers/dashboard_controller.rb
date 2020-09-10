@@ -9,7 +9,7 @@ class DashboardController < ApplicationController
       update_date = @shop.orders.progressing.first.try(:ordered_at) ||
                     @shop.orders.ordered.last.try(:ordered_at) ||
                     now.yesterday
-      if @shop.order_updated_at.nil? || @shop.order_updated_at < now - 3.hours
+      if @shop.order_updated_at.nil? || @shop.order_updated_at < now - 12.hours
         update_orders(update_date.strftime('%Y-%m-%d'))
       end
 
@@ -19,25 +19,24 @@ class DashboardController < ApplicationController
       daily_price = @orders_summary[:daily][:price]
       monthly_price = @orders_summary[:monthly][:price]
       yearly_price = @orders_summary[:yearly][:price]
-      @profits = {
-        today: calc_profit(daily_price, now, '%Y/%m/%d').to_s(:delimited),
-        yesterday: calc_profit(daily_price, now.yesterday, '%Y/%m/%d').to_s(:delimited),
-        this_month: calc_profit(monthly_price, now, '%Y/%m').to_s(:delimited),
-        last_month: calc_profit(monthly_price, (now - 1.month), '%Y/%m').to_s(:delimited),
-        this_year: calc_profit(yearly_price, now, '%Y').to_s(:delimited),
-        last_year: calc_profit(yearly_price, (now - 1.year), '%Y').to_s(:delimited)
+      @sales = {
+        today: calc_sales(daily_price, now, '%Y/%m/%d').to_s(:delimited),
+        yesterday: calc_sales(daily_price, now.yesterday, '%Y/%m/%d').to_s(:delimited),
+        this_month: calc_sales(monthly_price, now, '%Y/%m').to_s(:delimited),
+        last_month: calc_sales(monthly_price, (now - 1.month), '%Y/%m').to_s(:delimited),
+        this_year: calc_sales(yearly_price, now, '%Y').to_s(:delimited),
+        last_year: calc_sales(yearly_price, (now - 1.year), '%Y').to_s(:delimited)
       }
       gon.orders_summary = {
         daily: {
           labels: (0...7).map {|n| (now - (7 - n).days).strftime('%-m/%-d')},
-          data: (0...7).map {|n| calc_profit(daily_price, (now - (7 - n).days), '%Y/%m/%d')},
+          data: (0...7).map {|n| calc_sales(daily_price, (now - (7 - n).days), '%Y/%m/%d')},
         },
         monthly: {
           labels: (0...12).map {|n| (now - (12 - n).months).strftime('%Y/%-m')},
-          data: (0...12).map {|n| calc_profit(monthly_price, (now - (12 - n).months), '%Y/%m')},
+          data: (0...12).map {|n| calc_sales(monthly_price, (now - (12 - n).months), '%Y/%m')},
         }
       }
-        @orders_summary
     else
       @base_auth_url = Base::Api.auth_url
     end
@@ -83,7 +82,7 @@ class DashboardController < ApplicationController
 
   private
 
-  def calc_profit(prices, date, format)
+  def calc_sales(prices, date, format)
     (prices[date.strftime(format)].try(:values) || [0]).inject(:+)
   end
 
