@@ -21,6 +21,7 @@ gem 'sorcery'
 gem 'typhoeus'
 
 gem 'rails-i18n'
+gem 'enum_help'
 
 group :development, :test do
   gem 'dotenv-rails', require: 'dotenv/rails-now'

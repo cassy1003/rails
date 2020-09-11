@@ -162,7 +162,7 @@
                       <%= order.ordered_at.strftime('%Y/%m/%d %H:%M') %>
                     </th>
                     <td>
-                      <%= order.status %>
+                      <%= order.status_i18n %>
                     </td>
                     <td>
                       <%= order.last_name + ' ' + order.first_name %>
@@ -171,7 +171,7 @@
                       <%= order.price.to_s(:delimited) %>
                     </td>
                     <td>
-                      <%= order.payment %>
+                      <%= order.payment_i18n %>
                     </td>
                     <td class="text-right">
                       <a href="/dashboard/order/<%= order.key %>">

@@ -13,6 +13,7 @@
               <table id="orders_table" class="table table-sm align-items-center table-flush">
                 <thead class="thead-light">
                   <tr>
+                    <th scope="col">Update Date</th>
                     <th scope="col">Order Date</th>
                     <th scope="col">Status</th>
                     <th scope="col">Customer Name</th>
@@ -22,25 +23,28 @@
                   </tr>
                 </thead>
                 <tbody class="list">
-                  <% @base_orders['orders'].each do |order| %>
+                  <% @orders.each do |order| %>
                   <tr>
                     <th scope="row">
-                      <%= Time.at(order['ordered']).strftime('%Y/%m/%d %H:%M') %>
+                      <%= order.modified_at.strftime('%Y/%m/%d %H:%M') %>
                     </th>
                     <td>
-                      <%= order['dispatch_status'] %>
+                      <%= order.ordered_at.strftime('%Y/%m/%d %H:%M') %>
+                    </th>
+                    <td>
+                      <%= order.status_i18n %>
                     </td>
                     <td>
-                      <%= order['last_name'] + ' ' + order['first_name'] %>
+                      <%= order.last_name + ' ' + order.first_name %>
                     </td>
                     <td>
-                      <%= order['total'].to_s(:delimited) %>
+                      <%= order.price.to_s(:delimited) %>
                     </td>
                     <td>
-                      <%= order['payment'] %>
+                      <%= order.payment_i18n %>
                     </td>
                     <td class="text-right">
-                      <a href="/dashboard/order/<%= order['unique_key'] %>">
+                      <a href="/dashboard/order/<%= order.key %>">
                         <i class="ni ni-bold-right"></i>
                       </a>
                     </td>

@@ -1,0 +1,30 @@
+ja:
+  activerecord:
+    models:
+      order: 注文
+    attributes:
+      order:
+        ordered: 発送待ち
+        cancelled: キャンセル
+  enums:
+    order:
+      status:
+        ordered: 発送待ち
+        cancelled: キャンセル
+        dispatched: 発送済み
+        unpaid: 入金待ち
+        shipping: 配送中
+      payment:
+        creditcard: クレジットカード決済
+        bt: 銀行振込(ショップ口座)
+        cod: 代金引換
+        cvs: コンビニ決済
+        base_bt: 銀行振込(BASE口座)
+        atobarai: 後払い決済
+        carrier_01: キャリア決済ドコモ
+        carrier_02: キャリア決済au
+        carrier_03: キャリア決済ソフトバンク
+        paypal: PayPal決済
+        coin: コイン決済
+
+

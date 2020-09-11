@@ -47,7 +47,8 @@ class DashboardController < ApplicationController
   end
 
   def orders
-    base_orders
+    @shop = current_user.shops.first
+    @orders = @shop.orders.order(modified_at: 'DESC')
   end
 
   def shops
@@ -100,13 +101,13 @@ class DashboardController < ApplicationController
     @shop.update(order_updated_at: DateTime.now)
   end
 
-  def update_items
+  def update_items(order = 'list_order', sort = 'asc')
     offset = 0
     limit = 100
     items = []
     loop do
       break
-      res = Base::Api.items(@shop.latest_access_token, 'list_order', 'asc', limit, offset)
+      res = Base::Api.items(@shop.latest_access_token, order, sort, limit, offset)
       items += res
       break if res.count < limit || offset >= 2000
       offset += limit
