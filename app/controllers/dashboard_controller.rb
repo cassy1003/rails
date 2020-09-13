@@ -6,11 +6,14 @@ class DashboardController < ApplicationController
 
     if @shop.present?
       now = DateTime.now
-      update_date = @shop.orders.progressing.first.try(:ordered_at) ||
-                    @shop.orders.ordered.last.try(:ordered_at) ||
-                    now.yesterday
       if @shop.order_updated_at.nil? || @shop.order_updated_at < now - 12.hours
+        update_date = @shop.orders.progressing.first.try(:ordered_at) ||
+                      @shop.orders.ordered.last.try(:ordered_at) ||
+                      now.yesterday
         update_orders(update_date.strftime('%Y-%m-%d'))
+      end
+      if @shop.item_updated_at.nil? || @shop.item_updated_at < now - 12.hours
+        update_items('modified', 'desc')
       end
 
       @orders = @shop.orders.order(modified_at: 'DESC').first(10)
@@ -29,8 +32,8 @@ class DashboardController < ApplicationController
       }
       gon.orders_summary = {
         daily: {
-          labels: (0...7).map {|n| (now - (7 - n).days).strftime('%-m/%-d')},
-          data: (0...7).map {|n| calc_sales(daily_price, (now - (7 - n).days), '%Y/%m/%d')},
+          labels: (0...14).map {|n| (now - (14 - n).days).strftime('%-m/%-d')},
+          data: (0...14).map {|n| calc_sales(daily_price, (now - (14 - n).days), '%Y/%m/%d')},
         },
         monthly: {
           labels: (0...12).map {|n| (now - (12 - n).months).strftime('%Y/%-m')},
@@ -43,7 +46,8 @@ class DashboardController < ApplicationController
   end
 
   def items
-    base_items
+    @shop = current_user.shops.first
+    @items = @shop.items.order(:display_order)
   end
 
   def orders
@@ -87,12 +91,12 @@ class DashboardController < ApplicationController
     (prices[date.strftime(format)].try(:values) || [0]).inject(:+)
   end
 
-  def update_orders(date = '2019-01-01')
+  def update_orders(start = '2019-01-01')
     offset = 0
     limit = 100
     orders = []
     loop do
-      res = Base::Api.orders(@shop.latest_access_token, date, limit, offset)
+      res = Base::Api.orders(@shop.latest_access_token, start, limit, offset)
       orders += res
       break if res.count < limit
       offset += limit
@@ -103,16 +107,20 @@ class DashboardController < ApplicationController
 
   def update_items(order = 'list_order', sort = 'asc')
     offset = 0
-    limit = 100
+    limit = 10
     items = []
     loop do
-      break
       res = Base::Api.items(@shop.latest_access_token, order, sort, limit, offset)
       items += res
+      break if @shop.modified_item?(items.last['modified'])
       break if res.count < limit || offset >= 2000
       offset += limit
     end
-    items.each {|item| @shop.create_item_by_res(item)}
+    if sort == 'asc'
+      items.each {|item| @shop.create_item_by_res(item)}
+    else
+      items.reverse_each {|item| @shop.create_item_by_res(item)}
+    end
     @shop.update(item_updated_at: DateTime.now)
   end
 end

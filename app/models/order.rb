@@ -40,22 +40,4 @@ class Order < ApplicationRecord
   scope :yearly, -> {
     group("to_char(ordered_at AT TIME ZONE 'UTC' AT TIME ZONE 'JST', 'YYYY')").group(:status).order(:to_char_ordered_at_at_time_zone_utc_at_time_zone_jst_yyyy)
   }
-
-  def self.find_or_initialize_by_res(res)
-    find_or_initialize_by(key: res['unique_key']) do |order|
-      order.ordered_at = Time.zone.at(res['ordered'])
-      order.cancelled_at = Time.zone.at(res['cancelled']) if res['cancelled'].present?
-      order.dispatched_at = Time.zone.at(res['dispatched']) if res['dispatched'].present?
-      order.payment = res['payment']
-      order.first_name = res['first_name']
-      order.last_name = res['last_name']
-      order.price = res['total']
-      order.delivery_date = res['delivery_date']
-      order.status = res['dispatch_status']
-      order.modified_at = Time.zone.at(res['modified']) if res['modified'].present?
-      order.subscription_key = res['subscription']['unique_key']
-      order.subscription_repeat_number = res['subscription']['repeat_number']
-      order.subscription_repeat_times = res['subscription']['repeat_times']
-    end
-  end
 end

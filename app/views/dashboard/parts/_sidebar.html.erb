@@ -17,28 +17,28 @@
           <li class="nav-item">
             <a class="nav-link active" href="/dashboard">
               <i class="ni ni-tv-2 text-info"></i>
-              <span class="nav-link-text">Top</span>
+              <span class="nav-link-text"><%= t '.top' %></span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/dashboard/items">
               <i class="ni ni-bullet-list-67 text-primary"></i>
-              <span class="nav-link-text">Item List</span>
+              <span class="nav-link-text"><%= t '.item_list' %></span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/dashboard/orders">
               <i class="ni ni-cart text-orange"></i>
-              <span class="nav-link-text">Order List</span>
+              <span class="nav-link-text"><%= t '.order_list' %></span>
             </a>
           </li>
+          <%#
           <li class="nav-item">
             <a class="nav-link" href="profile.html">
               <i class="ni ni-delivery-fast text-green"></i>
               <span class="nav-link-text">Delivery List</span>
             </a>
           </li>
-          <%#
           <li class="nav-item">
             <a class="nav-link" href="tables.html">
               <i class="ni ni-bullet-list-67 text-default"></i>
@@ -60,19 +60,21 @@
           <li class="nav-item">
             <a class="nav-link" href="/members">
               <i class="ni ni-circle-08 text-yellow"></i>
-              <span class="nav-link-text">Members</span>
+              <span class="nav-link-text"><%= t '.member_list' %></span>
             </a>
           </li>
+          <%#
           <li class="nav-item">
             <a class="nav-link" href="/staffs">
               <i class="ni ni-circle-08 text-pink"></i>
-              <span class="nav-link-text">Staffs</span>
+              <span class="nav-link-text">Staff list</span>
             </a>
           </li>
+          %>
           <li class="nav-item">
             <a class="nav-link active active-pro" href="/signout">
               <i class="ni ni-user-run text-dark"></i>
-              <span class="nav-link-text">Sign out</span>
+              <span class="nav-link-text"><%= t '.sign_out' %></span>
             </a>
           </li>
         </ul>

@@ -23,36 +23,34 @@
                   </tr>
                 </thead>
                 <tbody class="list">
-                  <% @base_items['items'].each do |item| %>
+                  <% @items.each do |item| %>
                   <tr>
                     <td scope="row" class="item_base_id">
                       <span class="badge badge-dot">
-                        <i class="bg-<%= item['visible'].zero? ? 'light' : 'info' %>"></i>
+                        <i class="bg-<%= item.show? ? 'light' : 'info' %>"></i>
                       </span>
-                      <span><%= item['item_id'] %></span>
+                      <span><%= item.key %></span>
                     </td>
                     <th scope="row" class="item_name">
-                      <span class="name mb-0 text-sm"><%= item['title'] %></span>
+                      <span class="name mb-0 text-sm"><%= item.name %></span>
                     </th>
                     <td scope="row" class="item_price">
-                      <span class="price"><%= item['price'].to_s(:delimited) %></span>
+                      <span class="price"><%= item.price.to_s(:delimited) %></span>
                     </td>
                     <td scope="row" class="item_stock">
-                      <span class="stock"><%= item['stock'] %></span>
+                      <span class="stock"><%= item.stock %></span>
                     </td>
                     <td scope="row" class="item_images">
                       <div class="avatar-group">
-                        <% 5.times.each do |i| %>
-                          <% if item["img#{i+1}_origin"].present? %>
-                            <span class="avatar avatar-sm rounded-circle" data-toggle="tooltip">
-                              <img alt="Image placeholder" src="<%= item["img#{i+1}_origin"] %>">
-                            </span>
-                          <% end %>
+                        <% item.images.each do |image| %>
+                          <span class="avatar avatar-sm rounded-circle" data-toggle="tooltip">
+                            <img alt="Image placeholder" src="<%= image %>">
+                          </span>
                         <% end %>
                       </div>
                     </td>
                     <td scope="row" class="item_updated_at">
-                      <span class="stock"><%= Time.at(item['modified']).strftime('%Y/%m/%d %H:%M') %></span>
+                      <span class="stock"><%= item.modified_at.strftime('%Y/%m/%d %H:%M') %></span>
                     </td>
                     <td class="text-right">
                       <div class="dropdown">

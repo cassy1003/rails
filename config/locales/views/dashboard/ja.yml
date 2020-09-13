@@ -1,9 +1,38 @@
 ja:
   dashboard:
+    parts:
+      sidebar: &sidebar
+        top: トップ
+        item_list: 商品一覧
+        order_list: 注文一覧
+        member_list: メンバー一覧
+        sign_out: サインアウト
     index:
       shop_new: &shop_new
         title: BASEショップを新規登録
         description: 下のボタンよりBASEアカウントの認証を行ってください
         notice: 初回連携時は、商品リストや過去の受注情報を取得するため、時間がかかります
+      header:
+        today: 本日の売上
+        yesterday: 昨日の売上
+        this_month: 今月の売上
+        last_month: 前月の売上
+        this_year: 今年の売上
+        last_year: 前年の売上
+      chart:
+        recently_days: 直近14日
+        daily_sales: 日次売上
+        recently_months: 直近12ヵ月
+        monthly_sales: 月次売上
+      table:
+        new_orders: 新着注文一覧
+        order:
+          update_date: 更新日
+          order_date: 注文日
+          status: ステータス
+          customer: 注文者
+          price: 金額
+          payment: 支払方法
+      see_all: もっと見る
     shops:
       new: *shop_new
