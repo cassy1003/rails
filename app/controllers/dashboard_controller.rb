@@ -55,6 +55,11 @@ class DashboardController < ApplicationController
     @orders = @shop.orders.order(modified_at: 'DESC')
   end
 
+  def members
+    @admins = Owner.admin
+    @members = Owner.member
+  end
+
   def shops
     @shops = current_user.shops
     @base_auth_url = Base::Api.auth_url #base_auth_url
@@ -83,6 +88,22 @@ class DashboardController < ApplicationController
     update_orders
 
     redirect_to dashboard_path
+  end
+
+  def import_item_csv
+    csv_text = File.read(params[:csv_file])
+    header = nil
+    items = []
+    CSV.parse(csv_text.gsub(/\n/, '')) do |row|
+      header = row and next if row[0] == '商品登録'
+      next if header.nil?
+      item = {}
+      header.each_with_index do |key, idx|
+        next if key.nil?
+        item[key] = row[idx]
+      end
+      items.push(item)
+    end
   end
 
   private

@@ -11,8 +11,10 @@ Rails.application.routes.draw do
   namespace :dashboard do
     get 'index'
     get 'items'
+    post 'import_item_csv'
     get 'orders'
     get 'shops'
+    get 'members'
   end
 
   get 'auth/callback/:key' => 'dashboard#base_auth_callback'

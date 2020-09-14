@@ -1,3 +1,21 @@
+<% content_for :header_body do %>
+  <div class="row mb-3">
+    <div class="col-md-8">
+    </div>
+    <div class="col-md-4 text-right">
+      <%= form_tag({controller: "dashboard", action: "import_item_csv", method: "post"}, {multipart: true}) do %>
+        <div class="btn btn-sm btn-neutral"><i class="ni ni-fat-add"></i><%= t '.csv_upload' %></div>
+        <div class="field">
+          <%= label_tag "CSVファイルを選択" %><br>
+          <%= file_field_tag :csv_file %>
+        </div>
+        <div class="actions">
+          <%= submit_tag "CSVファイルを読み込む"%>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
 
     <!-- Page content -->
     <div class="container-fluid mt--6">
@@ -23,7 +41,7 @@
                   </tr>
                 </thead>
                 <tbody class="list">
-                  <% @items.each do |item| %>
+                  <% @items.first(10).each do |item| %>
                   <tr>
                     <td scope="row" class="item_base_id">
                       <span class="badge badge-dot">
