@@ -12,6 +12,13 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
 
   enum role: { admin: 1, member: 2, staff: 3 }
+  enum status: {
+    waiting: 1,
+    approved: 2,
+    invited: 3,
+    stop: 4,
+    deleted: 5
+  }
 
   def system_admin?
     type == 'SystemAdmin'

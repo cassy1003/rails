@@ -5,4 +5,5 @@ SystemAdmin.find_or_create_by(email: 'aki.with.smiles@gmail.com') do |user|
   user.password_confirmation = 'p@ssw0rd'
   user.name = '柏木 あき'
   user.role = 1
+  user.status = 2
 end

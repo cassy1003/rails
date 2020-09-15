@@ -10,13 +10,14 @@
           </div>
           <!-- Light table -->
           <div class="table-responsive">
-            <table id="members_table" class="table table-sm align-items-center table-flush">
+            <table id="owners_table" class="table table-sm align-items-center table-flush">
               <thead class="thead-light">
                 <tr>
                   <th scope="col" class="sort" data-sort="budget"><%= t '.created_at' %></th>
                   <th scope="col" class="sort" data-sort="name"><%= t '.name' %></th>
                   <th scope="col" class="sort" data-sort="email"><%= t '.email' %></th>
-                  <th scope="col"><%= t '.action' %></th>
+                  <th scope="col" class="sort" data-sort="status"><%= t '.status' %></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody class="list">
@@ -31,15 +32,20 @@
                   <th scope="row" class="member_email">
                     <span class="name mb-0 text-sm"><%= member.email %></span>
                   </th>
+                  <th scope="row" class="member_status">
+                    <span class="name mb-0 text-sm"><%= member.status_i18n %></span>
+                  </th>
                   <td class="">
-                    <% if member.approved_by.nil? %>
-                      <span class="btn btn-sm btn-primary" role="button">
-                        <i class="ni ni-fat-add"></i><%= t 'approve' %>
-                      </span>
+                    <% unless member.approved? %>
+                      <button class="btn btn-sm btn-primary" role="button" @click="approve('<%= member.id %>')">
+                        <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+                        <span class="btn-inner--text"><%= t '.approve' %></span>
+                      </button>
                     <% else %>
-                      <span class="btn btn-sm btn-light" role="button">
-                        <i class="ni ni-fat-remove"></i><%= t 'delete' %>
-                      </span>
+                      <button class="btn btn-sm btn-light" role="button" @click="stop('<%= member.id %>')">
+                        <span class="btn-inner--icon"><i class="ni ni-fat-remove"></i></span>
+                        <span class="btn-inner--text"><%= t '.stop' %></span>
+                      </button>
                     <% end %>
                   </td>
                 </tr>
@@ -60,11 +66,12 @@
               <thead class="thead-light">
                 <tr>
                   <th scope="col" class="sort" data-sort="budget"><%= t '.created_at' %></th>
-                  <th scope="col" class="sort" data-sort="term"><%= t '.term' %></th>
                   <th scope="col" class="sort" data-sort="name"><%= t '.name' %></th>
+                  <th scope="col" class="sort" data-sort="term"><%= t '.term' %></th>
                   <th scope="col" class="sort" data-sort="facebook_name"><%= t '.facebook_name' %></th>
                   <th scope="col" class="sort" data-sort="line_name"><%= t '.line_name' %></th>
-                  <th scope="col"><%= t '.action' %></th>
+                  <th scope="col" class="sort" data-sort="status"><%= t '.status' %></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody class="list">
@@ -73,11 +80,11 @@
                   <td scope="row" class="member_created_at">
                     <span class="created_at"><%= member.created_at.strftime('%Y/%m/%d %H:%M') %></span>
                   </td>
-                  <td scope="row" class="member_term">
-                    <span class="term"><%= member.term %><%= t '.term' %></span>
-                  </td>
                   <td scope="row" class="member_name">
                     <span><%= member.name %></span>
+                  </td>
+                  <td scope="row" class="member_term">
+                    <span class="term"><%= member.term %><%= t '.term' %></span>
                   </td>
                   <td scope="row" class="member_facebook_name">
                     <span class="facebook_name"><%= member.facebook_name %></span>
@@ -85,15 +92,20 @@
                   <td scope="row" class="member_line_name">
                     <span class="line_name"><%= member.line_name %></span>
                   </td>
+                  <th scope="row" class="member_status">
+                    <span class="name mb-0 text-sm"><%= member.status_i18n %></span>
+                  </th>
                   <td class="">
-                    <% if member.approved_by.nil? %>
-                      <span class="btn btn-sm btn-primary" role="button">
-                        <i class="ni ni-fat-add"></i><%= t 'approve' %>
-                      </span>
+                    <% unless member.approved? %>
+                      <button class="btn btn-sm btn-primary" role="button" @click="approve('<%= member.id %>')">
+                        <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+                        <span class="btn-inner--text"><%= t '.approve' %></span>
+                      </button>
                     <% else %>
-                      <span class="btn btn-sm btn-light" role="button">
-                        <i class="ni ni-fat-remove"></i><%= t 'delete' %>
-                      </span>
+                      <button class="btn btn-sm btn-light" role="button" @click="stop('<%= member.id %>')">
+                        <span class="btn-inner--icon"><i class="ni ni-fat-remove"></i></span>
+                        <span class="btn-inner--text"><%= t '.stop' %></span>
+                      </button>
                     <% end %>
                   </td>
                 </tr>

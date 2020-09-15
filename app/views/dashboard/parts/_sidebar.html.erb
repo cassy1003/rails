@@ -63,12 +63,14 @@
         %>
         <!-- Navigation -->
         <ul class="navbar-nav mb-md-3">
-          <li class="nav-item">
-            <a class="nav-link" href="/dashboard/members">
-              <i class="ni ni-circle-08 text-yellow"></i>
-              <span class="nav-link-text"><%= t '.member_list' %></span>
-            </a>
-          </li>
+          <% if current_user.admin? %>
+            <li class="nav-item">
+              <a class="nav-link" href="/dashboard/members">
+                <i class="ni ni-circle-08 text-yellow"></i>
+                <span class="nav-link-text"><%= t '.member_list' %></span>
+              </a>
+            </li>
+          <% end %>
           <%#
           <li class="nav-item">
             <a class="nav-link" href="/staffs">

@@ -11,3 +11,11 @@ ja:
         term: 何期生
         line_name: LINE名
         facebook_name: Facebook名
+  enums:
+    user:
+      status:
+        waiting: 承認待ち
+        approved: 承認済み
+        invited: 招待済み
+        stop: 利用停止
+        deleted: 削除
