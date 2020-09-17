@@ -1,7 +1,7 @@
 class Api::MembersController < ApiController
   def update
-    p 'test'
-    binding.pry
-    render json: { message: 'test' }
+    User.find(params[:id])
+        .update(status: params[:status], approved_at: DateTime.now, approved_by: current_user)
+    render json: { message: 'success' }
   end
 end

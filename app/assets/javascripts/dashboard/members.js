@@ -1,17 +1,19 @@
 const app = new Vue({
   el: '#dashboard_members',
   data: {
-    test: 'hoge'
   },
   methods: {
     approve(id) {
       axios.put('/api/members/' + id, {
-        status: 'approve'
+        status: 'approved'
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': window.token
+        }
       }).then(res => {
-        console.log(res);
+        location.reload();
       })
-    },
-    stop(id) {
     },
   }
 })

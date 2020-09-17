@@ -1,5 +1,6 @@
 class DashboardController < ApplicationController
   before_action :require_login
+  before_action :require_approved
 
   def index
     @shop = current_user.shops.first
@@ -107,6 +108,13 @@ class DashboardController < ApplicationController
   end
 
   private
+
+  def require_approved
+    if current_user.approved_by.nil?
+      logout
+      redirect_to signin_path
+    end
+  end
 
   def calc_sales(prices, date, format)
     (prices[date.strftime(format)].try(:values) || [0]).inject(:+)

@@ -10,12 +10,12 @@ class UserSessionsController < ApplicationController
         redirect_back_or_to(dashboard_url)
       else
         logout
-        # flash[:alert] = 'まだ承認されておりません'
-        render :new
+        flash[:alert] = 'まだ承認されておりません'
+        redirect_to signin_path
       end
     else
-      # flash[:alert] = 'ログイン失敗'
-      render :new
+      flash[:alert] = 'ログインに失敗しました'
+      redirect_to signin_path
     end
   end
 

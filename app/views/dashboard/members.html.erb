@@ -41,7 +41,8 @@
                         <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
                         <span class="btn-inner--text"><%= t '.approve' %></span>
                       </button>
-                    <% else %>
+                    <% end %>
+                    <% if false # とりあえず消しておく %>
                       <button class="btn btn-sm btn-light" role="button" @click="stop('<%= member.id %>')">
                         <span class="btn-inner--icon"><i class="ni ni-fat-remove"></i></span>
                         <span class="btn-inner--text"><%= t '.stop' %></span>

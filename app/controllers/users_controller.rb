@@ -9,9 +9,8 @@ class UsersController < ApplicationController
     if @user.save
       redirect_to root_path
     else
-      @user = User.new(user_params)
-      @require_params = require_params
-      render :new
+      flash[:alert] = @user.errors.full_messages.join('<br>') if @user.errors.any?
+      redirect_to signup_path
     end
   end
 

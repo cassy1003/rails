@@ -42,6 +42,10 @@
           </div>
           <% end %>
           <div class="card-body px-lg-5 py-lg-5">
+            <% if flash[:alert].present? %>
+              <div class="text-warning text-center text-sm mt-2 mb-3"><%= flash[:alert] %></div>
+            <% end %>
+
             <%= form_with url: user_sessions_path, local: true do |f| %>
               <div class="form-group mb-3">
                 <div class="input-group input-group-merge input-group-alternative">
