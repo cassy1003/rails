@@ -17,5 +17,10 @@ Rails.application.routes.draw do
     get 'members'
   end
 
+  namespace :api do
+    resources :members, only: [:update]
+  end
+
+
   get 'auth/callback/:key' => 'dashboard#base_auth_callback'
 end

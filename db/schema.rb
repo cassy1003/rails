@@ -96,7 +96,7 @@ ActiveRecord::Schema.define(version: 2020_09_15_154048) do
     t.datetime "approved_at"
     t.bigint "approved_by_id"
     t.integer "role", null: false
-    t.integer "status"
+    t.integer "status", default: 1
     t.index ["approved_by_id"], name: "index_users_on_approved_by_id"
     t.index ["email"], name: "index_users_on_email", unique: true
   end

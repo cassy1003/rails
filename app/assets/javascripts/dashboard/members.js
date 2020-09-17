@@ -1,4 +1,3 @@
-
 const app = new Vue({
   el: '#dashboard_members',
   data: {
@@ -6,7 +5,11 @@ const app = new Vue({
   },
   methods: {
     approve(id) {
-      console.log(id);
+      axios.put('/api/members/' + id, {
+        status: 'approve'
+      }).then(res => {
+        console.log(res);
+      })
     },
     stop(id) {
     },
