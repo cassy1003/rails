@@ -30,16 +30,16 @@
     <div class="main-content" id="panel">
       <%= render 'dashboard/parts/nav' %>
 
-      <!-- Header -->
-      <div class="header bg-gradient-owners pb-6">
-        <div class="container-fluid">
-          <div class="header-body">
-            <%= yield :header_body %>
+      <div id="<%= controller_name %>_<%= action_name %>">
+        <!-- Header -->
+        <div class="header bg-gradient-owners pb-6">
+          <div class="container-fluid">
+            <div class="header-body">
+              <%= yield :header_body %>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div id="<%= controller_name %>_<%= action_name %>">
         <%= yield %>
       </div>
 

@@ -8,6 +8,7 @@ ja:
         admin: 登録後、他の管理者に承認されるまでお待ちください。
         member: 登録後、管理者に承認されるまでお待ちください。
       signup: 登録
+      signin_link_html: ログインは<a href='/signin'>コチラ</a>。
 
       placeholder:
         name: 山田 太郎

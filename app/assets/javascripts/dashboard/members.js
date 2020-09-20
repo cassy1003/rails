@@ -1,4 +1,4 @@
-const app = new Vue({
+new Vue({
   el: '#dashboard_members',
   data: {
   },

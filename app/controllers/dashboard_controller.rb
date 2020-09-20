@@ -1,3 +1,5 @@
+require 'csv'
+
 class DashboardController < ApplicationController
   before_action :require_login
   before_action :require_approved
@@ -48,11 +50,21 @@ class DashboardController < ApplicationController
 
   def items
     @shop = current_user.shops.first
-    @items = @shop.items.order(:display_order)
+    gon.items = @shop.items.order(modified_at: 'DESC').map do |item|
+      {
+        visible: item.show?,
+        base_id: item.key,
+        name: item.name,
+        price: item.price.to_s(:delimited),
+        stock: item.stock,
+        images: item.images,
+        updated_at: item.modified_at.strftime('%Y/%m/%d %H:%M')
+      }
+    end
   end
 
   def orders
-    @shop = current_user.shops.first
+    #@shop = current_user.shops.first
     @orders = @shop.orders.order(modified_at: 'DESC')
   end
 
@@ -92,19 +104,9 @@ class DashboardController < ApplicationController
   end
 
   def import_item_csv
-    csv_text = File.read(params[:csv_file])
-    header = nil
-    items = []
-    CSV.parse(csv_text.gsub(/\n/, '')) do |row|
-      header = row and next if row[0] == '商品登録'
-      next if header.nil?
-      item = {}
-      header.each_with_index do |key, idx|
-        next if key.nil?
-        item[key] = row[idx]
-      end
-      items.push(item)
-    end
+    CsvImporter.import( File.read(params[:csv_file]) )
+    flash[:notice] = '読み込みが完了しました'
+    redirect_to action: :items
   end
 
   private
