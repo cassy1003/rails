@@ -1,7 +1,7 @@
 class Api::MembersController < ApiController
   def update
-    User.find(params[:id])
-        .update(status: params[:status], approved_at: DateTime.now, approved_by: current_user)
-    render json: { message: 'success' }
+    owner = Owner.find(params[:id])
+    owner.update(status: params[:status], approved_at: DateTime.now, approved_by: current_user)
+    render json: { status: owner.status_i18n, isApproved: owner.approved? }
   end
 end

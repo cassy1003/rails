@@ -18,6 +18,7 @@
     <%= csrf_meta_tags %>
     <script>
       window.token = document.getElementsByName('csrf-token')[0].content;
+      window.gon = {}
     </script>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= include_gon %>

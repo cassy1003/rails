@@ -11,7 +11,7 @@ class DashboardController < ApplicationController
       now = DateTime.now
       if @shop.order_updated_at.nil? || @shop.order_updated_at < now - 12.hours
         update_date = @shop.orders.progressing.first.try(:ordered_at) ||
-                      @shop.orders.ordered.last.try(:ordered_at) ||
+                      @shop.orders.order(:ordered_at).last.try(:ordered_at) ||
                       now.yesterday
         update_orders(update_date.strftime('%Y-%m-%d'))
       end
@@ -64,13 +64,48 @@ class DashboardController < ApplicationController
   end
 
   def orders
-    #@shop = current_user.shops.first
-    @orders = @shop.orders.order(modified_at: 'DESC')
+    @shop = current_user.shops.first
+
+    respond_to do |format|
+      format.html do
+        gon.orders = @shop.orders.order(modified_at: 'DESC').map do |order|
+          {
+            key: order.key,
+            customer_name: order.last_name + ' ' + order.first_name,
+            status: order.status_i18n,
+            price: order.price.to_s(:delimited),
+            payment: order.payment_i18n,
+            ordered_at: order.ordered_at.strftime('%Y/%m/%d %H:%M'),
+            updated_at: order.modified_at.strftime('%Y/%m/%d %H:%M')
+          }
+        end
+      end
+
+      format.csv do
+        filename = "(仮)new_orders_#{Time.zone.now.to_date.to_s}.csv"
+        send_data render_to_string, filename: filename, type: :csv
+      end
+    end
   end
 
   def members
+    redirect_to action: :index unless current_user.admin?
+
+    @shop = current_user.shops.first
     @admins = Owner.admin
     @members = Owner.member
+    gon.members = Owner.member.order(updated_at: 'DESC').map do |member|
+      {
+        id: member.id,
+        name: member.name,
+        term: member.term,
+        facebook_name: member.facebook_name,
+        line_name: member.line_name,
+        status: member.status_i18n,
+        isApproved: member.approved?,
+        created_at: member.created_at.strftime('%Y/%m/%d %H:%M')
+      }
+    end
   end
 
   def shops

@@ -2,8 +2,9 @@
   <div class="row mb-3">
     <div class="col-12">
       <!-- Button trigger modal -->
-      <button type="button" class="btn btn-neutral" data-toggle="modal" data-target="#uploadCsvModal">
-        <i class="ni ni-fat-add"></i><%= t '.csv_upload' %>
+      <button type="button" class="btn btn-icon btn-neutral" data-toggle="modal" data-target="#uploadCsvModal">
+        <span class="btn-inner--icon"><i class="fas fa-upload"></i></span>
+        <span class="btn-inner--text"><%= t '.csv_upload' %></span>
       </button>
 
       <!-- Modal -->
@@ -41,7 +42,17 @@
       <div class="card">
         <!-- Card header -->
         <div class="card-header border-0">
-          <h3 class="mb-0"><%= t '.item_list' %></h3>
+          <div class="row">
+            <h3 class="mb-0 col-6"><%= t '.item_list' %></h3>
+            <small class="col-6 text-right">
+              <template v-if="items.length > limit">
+                ( {{ startIndex }} ~ {{ endIndex }} / {{ items.length }}件 )
+              </template>
+              <template v-else>
+                ( {{ items.length }}件 )
+              </template>
+            </small>
+          </div>
         </div>
         <!-- Light table -->
         <div class="table-responsive">
@@ -106,7 +117,7 @@
         </div>
 
         <!-- Card footer -->
-        <div class="card-footer py-4">
+        <div class="card-footer py-4" v-if="items.length > limit">
           <nav aria-label="...">
             <ul class="pagination justify-content-end mb-0">
               <li class="page-item" v-if="page != 1">

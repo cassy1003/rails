@@ -25,9 +25,7 @@ class Order < ApplicationRecord
 
   scope :valid, -> { where.not(status: :cancelled) }
 
-  scope :ordered, -> { order(:ordered_at) }
-
-  scope :progressing, -> { where.not(status: [:cancelled, :dispatched]).ordered }
+  scope :progressing, -> { where.not(status: [:cancelled, :dispatched]).order(:ordered_at) }
 
   scope :daily, -> {
     group("to_char(ordered_at AT TIME ZONE 'UTC' AT TIME ZONE 'JST', 'YYYY/MM/DD')").group(:status).order(:to_char_ordered_at_at_time_zone_utc_at_time_zone_jst_yyyy_mm_dd)

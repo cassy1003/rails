@@ -20,12 +20,15 @@
               <span class="nav-link-text"><%= t '.top' %></span>
             </a>
           </li>
+          <% if @shop.present? %>
+          <!--
           <li class="nav-item">
             <a class="nav-link" href="/dashboard/shop_info">
               <i class="ni ni-shop text-indigo"></i>
               <span class="nav-link-text"><%= t '.shop_info' %></span>
             </a>
           </li>
+          -->
           <li class="nav-item">
             <a class="nav-link" href="/dashboard/items">
               <i class="ni ni-collection text-blue"></i>
@@ -52,6 +55,7 @@
             </a>
           </li>
           %>
+          <% end %>
         </ul>
         <!-- Divider -->
         <hr class="my-3">

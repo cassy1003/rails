@@ -1,18 +1,17 @@
 new Vue({
-  el: '#dashboard_items',
+  el: '#dashboard_orders',
   data: {
-    uploadFile: null,
-    items: gon.items,
+    orders: gon.orders,
     page: 1,
     pagenationButtonNum: 5,
-    limit: 10
+    limit: 15
   },
   computed: {
-    pageItems() {
-      return this.items.slice(this.limit * (this.page - 1), this.limit * this.page);
+    pageOrders() {
+      return this.orders.slice(this.limit * (this.page - 1), this.limit * this.page);
     },
     pageTotalNum() {
-      return Math.ceil(this.items.length / this.limit);
+      return Math.ceil(this.orders.length / this.limit);
     },
     pagenationButtonHalfNum() {
       return Math.ceil(this.pagenationButtonNum / 2);
@@ -21,14 +20,10 @@ new Vue({
       return (this.page - 1) * this.limit + 1;
     },
     endIndex() {
-      return this.page == this.pageTotalNum ? this.items.length : this.page * this.limit;
+      return this.page == this.pageTotalNum ? this.orders.length : this.page * this.limit;
     }
   },
   methods: {
-    changedFile(e) {
-      e.preventDefault();
-      this.uploadFile = e.target.files[0];
-    },
     visiblePagenationButton(p) {
       let n = this.pagenationButtonHalfNum;
       return Math.abs(this.page - p) < n
