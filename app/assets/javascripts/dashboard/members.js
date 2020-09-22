@@ -33,9 +33,12 @@ new Vue({
           'X-CSRF-Token': window.token
         }
       }).then(res => {
-        console.log(res);
-        member.isApproved = res['data']['isApproved'];
-        member.status = res['data']['status'];
+        if (member.role == 'admin') {
+          location.reload();
+        } else {
+          member.isApproved = res['data']['isApproved'];
+          member.status = res['data']['status'];
+        }
       })
     },
     visiblePagenationButton(p) {

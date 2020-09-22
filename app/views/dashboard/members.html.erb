@@ -38,7 +38,7 @@
                   </td>
                   <td class="">
                     <% unless member.approved? %>
-                      <button class="btn btn-sm btn-primary" role="button" @click="approve({id: '<%= member.id %>'})">
+                      <button class="btn btn-sm btn-primary" role="button" @click="approve({id: '<%= member.id %>', role: 'admin'})">
                         <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
                         <span class="btn-inner--text"><%= t '.approve' %></span>
                       </button>
