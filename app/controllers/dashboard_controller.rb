@@ -9,7 +9,7 @@ class DashboardController < ApplicationController
 
     if @shop.present?
       now = DateTime.now
-      if @shop.order_updated_at.nil? || @shop.order_updated_at < now - 12.hours
+      if @shop.order_updated_at.nil? || @shop.order_updated_at < now - 3.hours
         update_date = @shop.orders.progressing.first.try(:ordered_at) ||
                       @shop.orders.order(:ordered_at).last.try(:ordered_at) ||
                       now.yesterday
