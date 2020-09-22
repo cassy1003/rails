@@ -1,8 +1,9 @@
-<% if @members.present? %>
+<% if @members.present? || @admins.present? %>
 <!-- Page content -->
   <div class="container-fluid mt--6">
     <div class="row">
       <div class="col">
+        <% if @admins.present? %>
         <div class="card">
           <!-- Card header -->
           <div class="card-header border-0">
@@ -37,7 +38,7 @@
                   </td>
                   <td class="">
                     <% unless member.approved? %>
-                      <button class="btn btn-sm btn-primary" role="button" @click="approve('<%= member.id %>')">
+                      <button class="btn btn-sm btn-primary" role="button" @click="approve({id: '<%= member.id %>'})">
                         <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
                         <span class="btn-inner--text"><%= t '.approve' %></span>
                       </button>
@@ -55,7 +56,8 @@
             </table>
           </div>
         </div>
-
+        <% end %>
+        <% if @members.present? %>
         <div class="card">
           <!-- Card header -->
           <div class="card-header border-0">
@@ -153,6 +155,7 @@
             </nav>
           </div>
         </div>
+        <% end %>
       </div>
     </div>
   </div>
