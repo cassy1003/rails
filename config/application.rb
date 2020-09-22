@@ -15,5 +15,6 @@ module EneProfile
 
     config.autoload_paths += Dir["#{config.root}/app/models/**/"]
     config.autoload_paths += %W(#{config.root}/lib)
+    config.paths.add 'lib', eager_load: true
   end
 end
