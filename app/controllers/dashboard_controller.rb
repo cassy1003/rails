@@ -92,8 +92,15 @@ class DashboardController < ApplicationController
     redirect_to action: :index unless current_user.admin?
 
     @shop = current_user.shops.first
-    @admins = Owner.admin
-    @members = Owner.member
+    gon.admins = Owner.admin.order(updated_at: 'DESC').map do |admin|
+      {
+        id: admin.id,
+        name: admin.name,
+        status: admin.status_i18n,
+        isApproved: admin.approved?,
+        created_at: admin.created_at.strftime('%Y/%m/%d %H:%M')
+      }
+    end
     gon.members = Owner.member.order(updated_at: 'DESC').map do |member|
       {
         id: member.id,

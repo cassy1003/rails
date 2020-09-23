@@ -1,162 +1,152 @@
-<% if @members.present? || @admins.present? %>
 <!-- Page content -->
-  <div class="container-fluid mt--6">
-    <div class="row">
-      <div class="col">
-        <% if @admins.present? %>
-        <div class="card">
-          <!-- Card header -->
-          <div class="card-header border-0">
-            <h3 class="mb-0"><%= t '.admin_list' %></h3>
-          </div>
-          <!-- Light table -->
-          <div class="table-responsive">
-            <table id="owners_table" class="table table-sm align-items-center table-flush">
-              <thead class="thead-light">
-                <tr>
-                  <th scope="col" class="sort" data-sort="budget"><%= t '.created_at' %></th>
-                  <th scope="col" class="sort" data-sort="name"><%= t '.name' %></th>
-                  <th scope="col" class="sort" data-sort="email"><%= t '.email' %></th>
-                  <th scope="col" class="sort" data-sort="status"><%= t '.status' %></th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody class="list">
-                <% @admins.each do |member| %>
-                <tr>
-                  <td scope="row" class="member_created_at">
-                    <span class="created_at"><%= member.created_at.strftime('%Y/%m/%d %H:%M') %></span>
-                  </td>
-                  <th scope="row" class="member_name">
-                    <span><%= member.name %></span>
-                  </th>
-                  <td scope="row" class="member_email">
-                    <span class="name mb-0 text-sm"><%= member.email %></span>
-                  </td>
-                  <td scope="row" class="member_status">
-                    <span class="name mb-0 text-sm"><%= member.status_i18n %></span>
-                  </td>
-                  <td class="">
-                    <% unless member.approved? %>
-                      <button class="btn btn-sm btn-primary" role="button" @click="approve({id: '<%= member.id %>', role: 'admin'})">
-                        <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
-                        <span class="btn-inner--text"><%= t '.approve' %></span>
-                      </button>
-                    <% end %>
-                    <% if false # とりあえず消しておく %>
-                      <button class="btn btn-sm btn-light" role="button" @click="stop('<%= member.id %>')">
-                        <span class="btn-inner--icon"><i class="ni ni-fat-remove"></i></span>
-                        <span class="btn-inner--text"><%= t '.stop' %></span>
-                      </button>
-                    <% end %>
-                  </td>
-                </tr>
-                <% end %>
-              </tbody>
-            </table>
-          </div>
+<div class="container-fluid mt--6" v-if="admins.length > 0 || members.length > 0">
+  <div class="row">
+    <div class="col">
+      <div class="card" v-if="admins.length > 0">
+        <!-- Card header -->
+        <div class="card-header border-0">
+          <h3 class="mb-0"><%= t '.admin_list' %></h3>
         </div>
-        <% end %>
-        <% if @members.present? %>
-        <div class="card">
-          <!-- Card header -->
-          <div class="card-header border-0">
-            <div class="row">
-              <h3 class="mb-0 col-6"><%= t '.member_list' %></h3>
-              <small class="col-6 text-right">
-                <template v-if="members.length > limit">
-                ( {{ startIndex }} ~ {{ endIndex }} / {{ members.length }}件 )
-                </template>
-                <template v-else>
-                ( {{ members.length }}件 )
-                </template>
-              </small>
-            </div>
-          </div>
-          <!-- Light table -->
-          <div class="table-responsive">
-            <table id="members_table" class="table table-sm align-items-center table-flush">
-              <thead class="thead-light">
-                <tr>
-                  <th scope="col" class="sort" data-sort="budget"><%= t '.created_at' %></th>
-                  <th scope="col" class="sort" data-sort="name"><%= t '.name' %></th>
-                  <th scope="col" class="sort" data-sort="term"><%= t '.term' %></th>
-                  <th scope="col" class="sort" data-sort="facebook_name"><%= t '.facebook_name' %></th>
-                  <th scope="col" class="sort" data-sort="line_name"><%= t '.line_name' %></th>
-                  <th scope="col" class="sort" data-sort="status"><%= t '.status' %></th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody class="list">
-                <tr v-for="member in pageMembers">
-                  <td scope="row" class="member_created_at">
-                    <span class="created_at">{{ member.created_at }}</span>
-                  </td>
-                  <th scope="row" class="member_name">
-                    <span>{{ member.name }}</span>
-                  </th>
-                  <td scope="row" class="member_term">
-                    <span class="term">{{ member.term }}<%= t '.term' %></span>
-                  </td>
-                  <td scope="row" class="member_facebook_name">
-                    <span class="facebook_name">{{ member.facebook_name }}</span>
-                  </td>
-                  <td scope="row" class="member_line_name">
-                    <span class="line_name">{{ member.line_name }}</span>
-                  </td>
-                  <td scope="row" class="member_status">
-                    <span class="name mb-0 text-sm">{{ member.status }}</span>
-                  </td>
-                  <td class="">
-                    <template v-if="!member.isApproved">
-                      <button class="btn btn-sm btn-primary" role="button" @click="approve(member)">
-                        <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
-                        <span class="btn-inner--text"><%= t '.approve' %></span>
-                      </button>
-                    </template>
-                    <% if false # とりあえず消しておく %>
-                      <button class="btn btn-sm btn-light" role="button" @click="stop('<%= member.id %>')">
-                        <span class="btn-inner--icon"><i class="ni ni-fat-remove"></i></span>
-                        <span class="btn-inner--text"><%= t '.stop' %></span>
-                      </button>
-                    <% end %>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Card footer -->
-          <div class="card-footer py-4" v-if="members.length > limit">
-            <nav aria-label="...">
-              <ul class="pagination justify-content-end mb-0">
-                <li class="page-item" v-if="page != 1">
-                  <a class="page-link" href="javascript:void(0);" @click="page--">
-                    <i class="fas fa-angle-left"></i>
-                  </a>
-                </li>
-                <li v-if="page >= pagenationButtonHalfNum + 1" class="mx-2">
-                  ...
-                </li>
-                <li v-for="p of pageTotalNum"
-                    v-if="visiblePagenationButton(p)"
-                    class="page-item" :class="{active: page == p}">
-                  <a class="page-link" href="javascript:void(0);" @click="page = p">{{ p }}</a>
-                </li>
-                <li v-if="page <= pageTotalNum - pagenationButtonHalfNum" class="mx-2">
-                  ...
-                </li>
-                <li class="page-item" v-if="page != pageTotalNum">
-                  <a class="page-link" href="javascript:void(0);" @click="page++">
-                    <i class="fas fa-angle-right"></i>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
+        <!-- Light table -->
+        <div class="table-responsive">
+          <table id="owners_table" class="table table-sm align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col" class="sort" data-sort="budget"><%= t '.created_at' %></th>
+                <th scope="col" class="sort" data-sort="name"><%= t '.name' %></th>
+                <th scope="col" class="sort" data-sort="status"><%= t '.status' %></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody class="list">
+              <tr v-for="admin in admins">
+                <td scope="row" class="member_created_at">
+                  <span class="created_at">{{ admin.created_at }}</span>
+                </td>
+                <th scope="row" class="member_name">
+                  <span>{{ admin.name }}</span>
+                </th>
+                <td scope="row" class="member_status">
+                  <span class="name mb-0 text-sm">{{ admin.status }}</span>
+                </td>
+                <td class="">
+                  <template v-if="!admin.isApproved">
+                    <button class="btn btn-sm btn-primary" role="button" @click="approve(admin)">
+                      <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+                      <span class="btn-inner--text"><%= t '.approve' %></span>
+                    </button>
+                  </template>
+                  <% if false # とりあえず消しておく %>
+                    <button class="btn btn-sm btn-light" role="button" @click="stop('<%= member.id %>')">
+                      <span class="btn-inner--icon"><i class="ni ni-fat-remove"></i></span>
+                      <span class="btn-inner--text"><%= t '.stop' %></span>
+                    </button>
+                  <% end %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <% end %>
       </div>
+
+      <div class="card" v-if="members.length > 0">
+        <!-- Card header -->
+        <div class="card-header border-0">
+          <div class="row">
+            <h3 class="mb-0 col-6"><%= t '.member_list' %></h3>
+            <small class="col-6 text-right">
+              <template v-if="members.length > limit">
+              ( {{ startIndex }} ~ {{ endIndex }} / {{ members.length }}件 )
+              </template>
+              <template v-else>
+              ( {{ members.length }}件 )
+              </template>
+            </small>
+          </div>
+        </div>
+        <!-- Light table -->
+        <div class="table-responsive">
+          <table id="members_table" class="table table-sm align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col" class="sort" data-sort="budget"><%= t '.created_at' %></th>
+                <th scope="col" class="sort" data-sort="name"><%= t '.name' %></th>
+                <th scope="col" class="sort" data-sort="term"><%= t '.term' %></th>
+                <th scope="col" class="sort" data-sort="facebook_name"><%= t '.facebook_name' %></th>
+                <th scope="col" class="sort" data-sort="line_name"><%= t '.line_name' %></th>
+                <th scope="col" class="sort" data-sort="status"><%= t '.status' %></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody class="list">
+              <tr v-for="member in pageMembers">
+                <td scope="row" class="member_created_at">
+                  <span class="created_at">{{ member.created_at }}</span>
+                </td>
+                <th scope="row" class="member_name">
+                  <span>{{ member.name }}</span>
+                </th>
+                <td scope="row" class="member_term">
+                  <span class="term">{{ member.term }}<%= t '.term' %></span>
+                </td>
+                <td scope="row" class="member_facebook_name">
+                  <span class="facebook_name">{{ member.facebook_name }}</span>
+                </td>
+                <td scope="row" class="member_line_name">
+                  <span class="line_name">{{ member.line_name }}</span>
+                </td>
+                <td scope="row" class="member_status">
+                  <span class="name mb-0 text-sm">{{ member.status }}</span>
+                </td>
+                <td class="">
+                  <template v-if="!member.isApproved">
+                    <button class="btn btn-sm btn-primary" role="button" @click="approve(member)">
+                      <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+                      <span class="btn-inner--text"><%= t '.approve' %></span>
+                    </button>
+                  </template>
+                  <% if false # とりあえず消しておく %>
+                    <button class="btn btn-sm btn-light" role="button" @click="stop('<%= member.id %>')">
+                      <span class="btn-inner--icon"><i class="ni ni-fat-remove"></i></span>
+                      <span class="btn-inner--text"><%= t '.stop' %></span>
+                    </button>
+                  <% end %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Card footer -->
+        <div class="card-footer py-4" v-if="members.length > limit">
+          <nav aria-label="...">
+            <ul class="pagination justify-content-end mb-0">
+              <li class="page-item" v-if="page != 1">
+                <a class="page-link" href="javascript:void(0);" @click="page--">
+                  <i class="fas fa-angle-left"></i>
+                </a>
+              </li>
+              <li v-if="page >= pagenationButtonHalfNum + 1" class="mx-2">
+                ...
+              </li>
+              <li v-for="p of pageTotalNum"
+                  v-if="visiblePagenationButton(p)"
+                  class="page-item" :class="{active: page == p}">
+                <a class="page-link" href="javascript:void(0);" @click="page = p">{{ p }}</a>
+              </li>
+              <li v-if="page <= pageTotalNum - pagenationButtonHalfNum" class="mx-2">
+                ...
+              </li>
+              <li class="page-item" v-if="page != pageTotalNum">
+                <a class="page-link" href="javascript:void(0);" @click="page++">
+                  <i class="fas fa-angle-right"></i>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
     </div>
   </div>
-<% end %>
+</div>

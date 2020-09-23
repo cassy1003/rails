@@ -1,6 +1,7 @@
 new Vue({
   el: '#dashboard_members',
   data: {
+    admins: gon.admins,
     members: gon.members,
     page: 1,
     pagenationButtonNum: 5,
@@ -24,8 +25,8 @@ new Vue({
     }
   },
   methods: {
-    approve(member) {
-      axios.put('/api/members/' + member.id, {
+    approve(user) {
+      axios.put('/api/members/' + user.id, {
         status: 'approved'
       }, {
         headers: {
@@ -33,12 +34,8 @@ new Vue({
           'X-CSRF-Token': window.token
         }
       }).then(res => {
-        if (member.role == 'admin') {
-          location.reload();
-        } else {
-          member.isApproved = res['data']['isApproved'];
-          member.status = res['data']['status'];
-        }
+        user.isApproved = res['data']['isApproved'];
+        user.status = res['data']['status'];
       })
     },
     visiblePagenationButton(p) {
