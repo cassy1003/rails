@@ -34,8 +34,9 @@
           <table id="orders_table" class="table table-sm align-items-center table-flush">
             <thead class="thead-light">
               <tr>
-                <th scope="col"><%= t '.updated_at' %></th>
                 <th scope="col"><%= t '.ordered_at' %></th>
+                <th scope="col"><%= t '.updated_at' %></th>
+                <th scope="col"><%= t '.key' %></th>
                 <th scope="col"><%= t '.status' %></th>
                 <th scope="col"><%= t '.customer_name' %></th>
                 <th scope="col"><%= t '.price' %></th>
@@ -46,11 +47,14 @@
             <tbody class="list">
               <tr v-for="order in pageOrders">
                 <th scope="row">
+                  {{ order.ordered_at }}
+                </th>
+                <td>
                   {{ order.updated_at }}
                 </th>
                 <td>
-                  {{ order.ordered_at }}
-                </th>
+                  {{ order.key }}
+                </td>
                 <td>
                   {{ order.status }}
                 </td>

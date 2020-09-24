@@ -68,7 +68,7 @@ class DashboardController < ApplicationController
 
     respond_to do |format|
       format.html do
-        gon.orders = @shop.orders.order(modified_at: 'DESC').map do |order|
+        gon.orders = @shop.orders.order(ordered_at: 'DESC').map do |order|
           {
             key: order.key,
             customer_name: order.last_name + ' ' + order.first_name,
