@@ -1,5 +1,5 @@
 
-CSV.generate do |csv|
+CSV.generate(encoding: Encoding::SJIS, row_sep: "\r\n", force_quotes: true) do |csv|
   header = %w|BASE_ID 注文日 更新日 ステータス 注文者 料金 支払い方法|
   csv << header
 
