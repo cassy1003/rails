@@ -11,7 +11,7 @@
       <div class="modal fade" id="uploadCsvModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
-            <%= form_tag({controller: "dashboard", action: "import_item_csv", method: "post"}, {multipart: true}) do %>
+            <%= form_tag({controller: "items", action: "import_csv", method: "post"}, {multipart: true}) do %>
               <div class="modal-body">
                 <label class="btn btn-neutral" for="csv_file">
                   <i class="ni ni-single-copy-04"></i><%= t '.select_file' %>

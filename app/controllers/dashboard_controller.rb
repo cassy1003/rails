@@ -3,20 +3,19 @@ require 'csv'
 class DashboardController < ApplicationController
   before_action :require_login
   before_action :require_approved
+  before_action :load_default_shop
 
   def index
-    @shop = current_user.shops.first
-
     if @shop.present?
       now = DateTime.now
       if @shop.order_updated_at.nil? || @shop.order_updated_at < now - 3.hours
         update_date = @shop.orders.progressing.first.try(:ordered_at) ||
                       @shop.orders.order(:ordered_at).last.try(:ordered_at) ||
                       now.yesterday
-        update_orders(update_date.strftime('%Y-%m-%d'))
+        @shop.update_orders(update_date.strftime('%Y-%m-%d'))
       end
       if @shop.item_updated_at.nil? || @shop.item_updated_at < now - 12.hours
-        update_items('modified', 'desc')
+        @shop.update_items('modified', 'desc')
       end
 
       @orders = @shop.orders.order(modified_at: 'DESC').first(10)
@@ -48,73 +47,6 @@ class DashboardController < ApplicationController
     end
   end
 
-  def items
-    @shop = current_user.shops.first
-    gon.items = @shop.items.order(modified_at: 'DESC').map do |item|
-      {
-        visible: item.show?,
-        base_id: item.key,
-        name: item.name,
-        price: item.price.to_s(:delimited),
-        stock: item.stock,
-        images: item.images,
-        updated_at: item.modified_at.strftime('%Y/%m/%d %H:%M')
-      }
-    end
-  end
-
-  def orders
-    @shop = current_user.shops.first
-
-    respond_to do |format|
-      format.html do
-        gon.orders = @shop.orders.order(ordered_at: 'DESC').map do |order|
-          {
-            key: order.key,
-            customer_name: order.last_name + ' ' + order.first_name,
-            status: order.status_i18n,
-            price: order.price.to_s(:delimited),
-            payment: order.payment_i18n,
-            ordered_at: order.ordered_at.strftime('%Y/%m/%d %H:%M'),
-            updated_at: order.modified_at.strftime('%Y/%m/%d %H:%M')
-          }
-        end
-      end
-
-      format.csv do
-        filename = "(仮)new_orders_#{Time.zone.now.to_date.to_s}.csv"
-        send_data render_to_string, filename: filename, type: :csv
-      end
-    end
-  end
-
-  def members
-    redirect_to action: :index unless current_user.admin?
-
-    @shop = current_user.shops.first
-    gon.admins = Owner.admin.order(updated_at: 'DESC').map do |admin|
-      {
-        id: admin.id,
-        name: admin.name,
-        status: admin.status_i18n,
-        isApproved: admin.approved?,
-        created_at: admin.created_at.strftime('%Y/%m/%d %H:%M')
-      }
-    end
-    gon.members = Owner.member.order(updated_at: 'DESC').map do |member|
-      {
-        id: member.id,
-        name: member.name,
-        term: member.term,
-        facebook_name: member.facebook_name,
-        line_name: member.line_name,
-        status: member.status_i18n,
-        isApproved: member.approved?,
-        created_at: member.created_at.strftime('%Y/%m/%d %H:%M')
-      }
-    end
-  end
-
   def shops
     @shops = current_user.shops
     @base_auth_url = Base::Api.auth_url #base_auth_url
@@ -138,17 +70,11 @@ class DashboardController < ApplicationController
     @shop.update(shop_params.merge(tokens))
     ShopUser.find_or_create_by(user: current_user, shop: @shop, role: :admin)
 
-    update_items
+    @shop.update_items
 
-    update_orders
+    @shop.update_orders
 
     redirect_to dashboard_path
-  end
-
-  def import_item_csv
-    CsvImporter.import( File.read(params[:csv_file]) )
-    flash[:notice] = '読み込みが完了しました'
-    redirect_to action: :items
   end
 
   private
@@ -160,40 +86,11 @@ class DashboardController < ApplicationController
     end
   end
 
+  def load_default_shop
+    @shop = current_user&.shops&.first
+  end
+
   def calc_sales(prices, date, format)
     (prices[date.strftime(format)].try(:values) || [0]).inject(:+)
-  end
-
-  def update_orders(start = '2019-01-01')
-    offset = 0
-    limit = 100
-    orders = []
-    loop do
-      res = Base::Api.orders(@shop.latest_access_token, start, limit, offset)
-      orders += res
-      break if res.count < limit
-      offset += limit
-    end
-    orders.reverse_each {|order| @shop.create_order_by_res(order)}
-    @shop.update(order_updated_at: DateTime.now)
-  end
-
-  def update_items(order = 'list_order', sort = 'asc')
-    offset = 0
-    limit = 10
-    items = []
-    loop do
-      res = Base::Api.items(@shop.latest_access_token, order, sort, limit, offset)
-      items += res
-      break if @shop.modified_item?(items.last['modified'])
-      break if res.count < limit || offset >= 2000
-      offset += limit
-    end
-    if sort == 'asc'
-      items.each {|item| @shop.create_item_by_res(item)}
-    else
-      items.reverse_each {|item| @shop.create_item_by_res(item)}
-    end
-    @shop.update(item_updated_at: DateTime.now)
   end
 end

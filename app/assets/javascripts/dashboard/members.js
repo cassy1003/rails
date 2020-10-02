@@ -26,7 +26,7 @@ new Vue({
   },
   methods: {
     approve(user) {
-      axios.put('/api/members/' + user.id, {
+      axios.put('/dashboard/members/' + user.id, {
         status: 'approved'
       }, {
         headers: {

@@ -18,20 +18,19 @@
     <%= csrf_meta_tags %>
     <script>
       window.token = document.getElementsByName('csrf-token')[0].content;
-      window.gon = {}
     </script>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= include_gon %>
   </head>
 
-  <body class="bg-secondary" id="<%= controller_name %>">
+  <body class="bg-secondary" id="dashboard">
     <%= render "dashboard/parts/sidebar" %>
 
     <!-- Main content -->
     <div class="main-content" id="panel">
       <%= render 'dashboard/parts/nav' %>
 
-      <div id="<%= controller_name %>_<%= action_name %>">
+      <div id="<%= controller_path.sub('/', '_') %>" v-cloak>
         <!-- Header -->
         <div class="header bg-gradient-owners pb-6">
           <div class="container-fluid">

@@ -35,37 +35,5 @@ ja:
           price: 金額
           payment: 支払方法
       see_all: もっと見る
-    items:
-      csv_upload: CSVファイルをアップロード
-      select_file: ファイル選択
-      upload_file: ファイルを読み込む
-      modal_close: 閉じる
-      item_list: 商品一覧
-      base_id: BASE商品ID
-      name: 商品名
-      price: 料金
-      stock: 在庫
-      images: 写真
-      updated_at: 更新日
-    orders:
-      csv_download: CSVファイルをダウンロード
-      order_list: 注文一覧
-      updated_at: 更新日
-      ordered_at: 注文日
-      status: ステータス
-      customer_name: 注文者
-      price: 料金
-      payment: 支払方法
-    members:
-      admin_list: 管理者一覧
-      member_list: メンバー一覧
-      created_at: 登録日
-      name: 氏名
-      email: メールアドレス
-      term: 期生
-      facebook_name: Facebook名
-      line_name: LINE名
-      approve: 承認
-      stop: 利用停止
     shops:
       new: *shop_new

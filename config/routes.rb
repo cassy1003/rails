@@ -9,18 +9,14 @@ Rails.application.routes.draw do
 
   get 'dashboard' => 'dashboard#index'
   namespace :dashboard do
-    get 'index'
-    get 'items'
-    post 'import_item_csv'
-    get 'orders'
-    get 'shops'
-    get 'members'
+    resources :items, only: [:index] do
+      post :import_csv, on: :collection
+    end
+    resources :orders, only: [:index] do
+      post :load_detail, on: :collection
+    end
+    resources :members, only: [:index, :update]
+    resources :shops, only: [:index]
   end
-
-  namespace :api do
-    resources :members, only: [:update]
-  end
-
-
   get 'auth/callback/:key' => 'dashboard#base_auth_callback'
 end

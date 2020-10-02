@@ -20,6 +20,39 @@ class Shop < ApplicationRecord
     base_access_token
   end
 
+  def update_items(order = 'list_order', sort = 'asc')
+    offset = 0
+    limit = 10
+    items = []
+    loop do
+      res = Base::Api.items(latest_access_token, order, sort, limit, offset)
+      items += res
+      break if modified_item?(items.last['modified'])
+      break if res.count < limit || offset >= 2000
+      offset += limit
+    end
+    if sort == 'asc'
+      items.each {|item| create_item_by_res(item)}
+    else
+      items.reverse_each {|item| create_item_by_res(item)}
+    end
+    update(item_updated_at: DateTime.now)
+  end
+
+  def update_orders(start = '2019-01-01')
+    offset = 0
+    limit = 100
+    orders = []
+    loop do
+      res = Base::Api.orders(latest_access_token, start, limit, offset)
+      orders += res
+      break if res.count < limit
+      offset += limit
+    end
+    orders.reverse_each {|order| create_order_by_res(order)}
+    update(order_updated_at: DateTime.now)
+  end
+
   def create_item_by_res(res)
     return if modified_item?(res['modified'])
 

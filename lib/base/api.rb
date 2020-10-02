@@ -76,6 +76,11 @@ class Base::Api
       JSON.parse(request.response_body)['orders']
     end
 
+    def order_detail(access_token, order)
+      request = Typhoeus.get("#{base_api_url('orders')}/detail/#{order.key}", headers: auth_header(access_token))
+      JSON.parse(request.response_body)['order']
+    end
+
     private
 
     def base_api_domain

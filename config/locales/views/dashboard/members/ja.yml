@@ -1,0 +1,14 @@
+ja:
+  dashboard:
+    members:
+      index:
+        admin_list: 管理者一覧
+        member_list: メンバー一覧
+        created_at: 登録日
+        name: 氏名
+        email: メールアドレス
+        term: 期生
+        facebook_name: Facebook名
+        line_name: LINE名
+        approve: 承認
+        stop: 利用停止

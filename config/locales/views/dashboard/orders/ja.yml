@@ -1,0 +1,13 @@
+ja:
+  dashboard:
+    orders:
+      index:
+        csv_download: CSVファイルをダウンロード
+        order_list: 注文一覧
+        updated_at: 更新日
+        ordered_at: 注文日
+        status: ステータス
+        customer_name: 注文者
+        price: 料金
+        payment: 支払方法
+

@@ -18,6 +18,10 @@
   display: none;
 }
 
+#dashboard[v-cloak] {
+  display: block;
+}
+
 .bg-gradient-owners {
   background: linear-gradient(87deg, #0BA299 0, #0BA299 400px, #2dcecc 100%) !important;
 }
