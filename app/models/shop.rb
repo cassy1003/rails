@@ -66,10 +66,17 @@ class Shop < ApplicationRecord
     item.visible = res['visible']
     item.display_order = res['list_order']
     item.images = [res['img1_origin'], res['img2_origin'], res['img3_origin'], res['img4_origin'], res['img5_origin']].compact
-    item.variations = res['variations']
     item.modified_at = Time.zone.at(res['modified'])
     item.shop_id = id if item.new_record?
     item.save
+
+    res['variations'].each do |va|
+      item.variations.find_or_create_by(base_id: va['variation_id']) do |iva|
+      iva.text = va['variation']
+      iva.stock = va['variation_stock']
+      iva.key = va['variation_identifier']
+      iva.barcode = va['barcode']
+    end
   end
 
   def modified_item?(modified_ts)

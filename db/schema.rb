@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_20_060700) do
+ActiveRecord::Schema.define(version: 2020_10_04_154301) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,18 @@ ActiveRecord::Schema.define(version: 2020_09_20_060700) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["item_id"], name: "index_item_suppliers_on_item_id"
+  end
+
+  create_table "item_variations", force: :cascade do |t|
+    t.bigint "item_id", null: false
+    t.integer "base_id", null: false
+    t.string "text"
+    t.integer "stock"
+    t.string "key"
+    t.string "barcode"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["item_id"], name: "index_item_variations_on_item_id"
   end
 
   create_table "items", force: :cascade do |t|
@@ -37,7 +49,6 @@ ActiveRecord::Schema.define(version: 2020_09_20_060700) do
     t.integer "display_order"
     t.string "images", array: true
     t.datetime "modified_at"
-    t.jsonb "variations"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["shop_id"], name: "index_items_on_shop_id"
@@ -61,6 +72,30 @@ ActiveRecord::Schema.define(version: 2020_09_20_060700) do
     t.integer "subscription_repeat_times"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "shipping_method"
+    t.integer "shipping_fee"
+    t.integer "cod_fee"
+    t.string "country"
+    t.string "zip_code"
+    t.string "prefecture"
+    t.string "address"
+    t.string "address2"
+    t.string "email"
+    t.string "tel"
+    t.string "remark"
+    t.string "comment"
+    t.integer "delivery_company_id"
+    t.string "delivery_time_zone"
+    t.string "tracking_number"
+    t.string "receiver_first_name"
+    t.string "receiver_last_name"
+    t.string "receiver_zipcode"
+    t.string "receiver_prefecture"
+    t.string "receiver_address"
+    t.string "receiver_address2"
+    t.string "receiver_tel"
+    t.string "receiver_country"
+    t.text "balance_logs", array: true
     t.index ["shop_id"], name: "index_orders_on_shop_id"
   end
 
@@ -111,6 +146,7 @@ ActiveRecord::Schema.define(version: 2020_09_20_060700) do
   end
 
   add_foreign_key "item_suppliers", "items"
+  add_foreign_key "item_variations", "items"
   add_foreign_key "items", "shops"
   add_foreign_key "orders", "shops"
   add_foreign_key "shop_users", "shops"
