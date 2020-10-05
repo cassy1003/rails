@@ -14,6 +14,18 @@ class Dashboard::ItemsController < DashboardController
     end
   end
 
+  def new
+
+  end
+
+  def edit
+
+  end
+
+  def show
+
+  end
+
   def import_csv
     CsvImporter.import( File.read(params[:csv_file]) )
     flash[:notice] = '読み込みが完了しました'

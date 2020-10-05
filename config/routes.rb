@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   get 'dashboard' => 'dashboard#index'
   namespace :dashboard do
-    resources :items, only: [:index] do
+    resources :items do
       post :import_csv, on: :collection
     end
     resources :orders, only: [:index] do
