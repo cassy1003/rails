@@ -7,7 +7,7 @@ ja:
         item_list: 商品一覧
         order_list: 注文一覧
         member_list: メンバー一覧
-        sign_out: サインアウト
+        sign_out: ログアウト
     index:
       shop_new: &shop_new
         title: BASEショップを新規登録

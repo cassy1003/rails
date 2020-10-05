@@ -23,9 +23,8 @@ class Dashboard::OrdersController < DashboardController
   end
 
   def load_detail
-    @shop.orders.progressing.take(1).each do |order|
-      res = Base::Api.order_detail(@shop.latest_access_token, order)
-      binding.pry
-    end
+    #@shop.orders.progressing.each do |order|
+    #  res = Base::Api.order_detail(@shop.latest_access_token, order)
+    #end
   end
 end
