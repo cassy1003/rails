@@ -63,7 +63,7 @@
                 <th scope="col" class="sort" data-sort="name"><%= t '.name' %></th>
                 <th scope="col" class="sort" data-sort="price"><%= t '.price' %></th>
                 <th scope="col" class="sort" data-sort="stock"><%= t '.stock' %></th>
-                <th scope="col" class="sort" data-sort="images"><%= t '.images' %></th>
+                <th scope="col" class="sort item_images" data-sort="images"><%= t '.images' %></th>
                 <th scope="col" class="sort" data-sort="updated_at"><%= t '.updated_at' %></th>
                 <th scope="col"></th>
               </tr>
@@ -97,8 +97,11 @@
                 <td scope="row" class="item_updated_at">
                   <span class="stock">{{ item.updated_at }}</span>
                 </td>
-                <%#
                 <td class="text-right">
+                  <a :href="'/dashboard/items/' + item.base_id">
+                    <i class="ni ni-bold-right"></i>
+                  </a>
+                  <%#
                   <div class="dropdown">
                     <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="fas fa-ellipsis-v"></i>
@@ -109,8 +112,8 @@
                       <a class="dropdown-item" href="#">Something else here</a>
                     </div>
                   </div>
+                  %>
                 </td>
-                %>
               </tr>
             </tbody>
           </table>

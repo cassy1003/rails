@@ -4,10 +4,17 @@ module ApplicationHelper
     render partial_path if [path, file].all?(&:present?) && lookup_context.exists?(file, path, true)
   end
 
+  def individual_js_exist?
+    File.exist? "#{Rails.root}/app/assets/javascripts/#{js_filename}.js"
+  end
+
   def javascript_include_tag_each_view
-    filename = controller_path + '/' + action_name
-    if File.exist? "#{Rails.root}/app/assets/javascripts/#{filename}.js"
-      javascript_include_tag filename, 'data-turbolinks-track': 'reload'
-    end
+    javascript_include_tag js_filename, 'data-turbolinks-track': 'reload' if individual_js_exist?
+  end
+
+  private
+
+  def js_filename
+    controller_path + '/' + action_name
   end
 end

@@ -30,7 +30,7 @@
     <div class="main-content" id="panel">
       <%= render 'dashboard/parts/nav' %>
 
-      <div id="<%= controller_path.sub('/', '_') %>" v-cloak>
+      <div id="<%= controller_path.sub('/', '_') %>" <%= 'v-cloak' if individual_js_exist? %>>
         <!-- Header -->
         <div class="header bg-gradient-owners pb-6">
           <div class="container-fluid">

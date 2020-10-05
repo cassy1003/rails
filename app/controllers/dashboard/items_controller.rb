@@ -23,7 +23,7 @@ class Dashboard::ItemsController < DashboardController
   end
 
   def show
-
+    @item = @shop.items.find_by(key: params[:id])
   end
 
   def import_csv
