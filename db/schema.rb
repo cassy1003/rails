@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_04_154301) do
+ActiveRecord::Schema.define(version: 2020_10_04_145535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 2020_10_04_154301) do
     t.integer "display_order"
     t.string "images", array: true
     t.datetime "modified_at"
+    t.jsonb "variations"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["shop_id"], name: "index_items_on_shop_id"
@@ -140,7 +141,7 @@ ActiveRecord::Schema.define(version: 2020_10_04_154301) do
     t.datetime "approved_at"
     t.bigint "approved_by_id"
     t.integer "role", null: false
-    t.integer "status"
+    t.integer "status", default: 1
     t.index ["approved_by_id"], name: "index_users_on_approved_by_id"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
