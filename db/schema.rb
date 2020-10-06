@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_04_154301) do
+ActiveRecord::Schema.define(version: 2020_10_06_151059) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 2020_10_04_154301) do
     t.integer "proper_price"
     t.integer "tax_type"
     t.integer "stock"
-    t.integer "visible"
+    t.integer "status"
     t.integer "display_order"
     t.string "images", array: true
     t.datetime "modified_at"
@@ -140,7 +140,7 @@ ActiveRecord::Schema.define(version: 2020_10_04_154301) do
     t.datetime "approved_at"
     t.bigint "approved_by_id"
     t.integer "role", null: false
-    t.integer "status", default: 1
+    t.integer "status"
     t.index ["approved_by_id"], name: "index_users_on_approved_by_id"
     t.index ["email"], name: "index_users_on_email", unique: true
   end

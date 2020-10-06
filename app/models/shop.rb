@@ -63,7 +63,7 @@ class Shop < ApplicationRecord
     item.proper_price = res['proper_price']
     item.tax_type = res['item_tax_type']
     item.stock = res['stock']
-    item.visible = res['visible']
+    item.status = res['visible']
     item.display_order = res['list_order']
     item.images = [res['img1_origin'], res['img2_origin'], res['img3_origin'], res['img4_origin'], res['img5_origin']].compact
     item.modified_at = Time.zone.at(res['modified'])

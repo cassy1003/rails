@@ -3,7 +3,7 @@ class Dashboard::ItemsController < DashboardController
     @shop = current_user.shops.first
     gon.items = @shop.items.order(modified_at: 'DESC').map do |item|
       {
-        visible: item.show?,
+        status: item.status_i18n,
         base_id: item.key,
         name: item.name,
         price: item.price.to_s(:delimited),

@@ -8,6 +8,7 @@ ja:
         modal_close: 閉じる
         item_list: 商品一覧
         base_id: BASE商品ID
+        status: ステータス
         name: 商品名
         price: 料金
         stock: 在庫

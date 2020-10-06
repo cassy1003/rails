@@ -1,0 +1,10 @@
+ja:
+  activerecord:
+    modles:
+      item: 商品
+  enums:
+    item:
+      status:
+        published: 公開
+        unpublished: 非公開
+        draft: 下書き

@@ -4,5 +4,5 @@ class Item < ApplicationRecord
   has_many :suppliers, class_name: 'ItemSupplier', foreign_key: 'item_id', dependent: :destroy
 
   enum tax_type: {nomarl: 1, reduced: 2}
-  enum visible: {show: 1, hide: 0}
+  enum status: {published: 1, unpublished: 0, draft: -1}
 end

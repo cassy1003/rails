@@ -59,7 +59,8 @@
           <table id="items_table" class="table table-sm align-items-center table-flush">
             <thead class="thead-light">
               <tr>
-                <th scope="col" class="sort text-center" data-sort="budget"><%= t '.base_id' %></th>
+                <th scope="col" class="sort" data-sort="budget"><%= t '.base_id' %></th>
+                <th scope="col" class="sort" data-sort="status"><%= t '.status' %></th>
                 <th scope="col" class="sort" data-sort="name"><%= t '.name' %></th>
                 <th scope="col" class="sort" data-sort="price"><%= t '.price' %></th>
                 <th scope="col" class="sort" data-sort="stock"><%= t '.stock' %></th>
@@ -71,10 +72,15 @@
             <tbody class="list">
               <tr v-for="item in pageItems">
                 <td scope="row" class="item_base_id">
+                  <%#
                   <span class="badge badge-dot">
-                    <i :class="item.visible ? 'bg-info' : 'bg-light'"></i>
+                    <i :class="item.status ? 'bg-info' : 'bg-light'"></i>
                   </span>
+                  %>
                   <span>{{ item.base_id }}</span>
+                </td>
+                <td scope="row" class="item_base_id">
+                  <span>{{ item.status }}</span>
                 </td>
                 <th scope="row" class="item_name">
                   <span class="name mb-0 text-sm">{{ item.name }}</span>
