@@ -14,3 +14,16 @@ ja:
         stock: 在庫
         images: 写真
         updated_at: 更新日
+      show:
+        basic_info: 基本情報
+        variation_info: サイズ・色の情報
+        supplier_info: 仕入先
+        key: BASE商品ID
+        name: 商品名
+        detail: 商品説明
+        price: 価格
+        proper_price: 通常価格
+        tax_type: 税率
+        image: サンプル画像
+        supplier: 仕入先
+

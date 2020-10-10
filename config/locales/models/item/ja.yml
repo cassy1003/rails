@@ -8,3 +8,6 @@ ja:
         published: 公開
         unpublished: 非公開
         draft: 下書き
+      tax_type:
+        normal: 標準税率
+        reduced: 軽減税率

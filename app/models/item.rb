@@ -3,6 +3,6 @@ class Item < ApplicationRecord
   has_many :variations, class_name: 'ItemVariation', foreign_key: 'item_id', dependent: :destroy
   has_many :suppliers, class_name: 'ItemSupplier', foreign_key: 'item_id', dependent: :destroy
 
-  enum tax_type: {nomarl: 1, reduced: 2}
+  enum tax_type: {normal: 1, reduced: 2}
   enum status: {published: 1, unpublished: 0, draft: -1}
 end
