@@ -19,6 +19,7 @@ gem 'gon'
 gem 'bcrypt'
 gem 'sorcery'
 gem 'typhoeus'
+gem 'mechanize'
 
 gem 'rails-i18n'
 gem 'enum_help'
