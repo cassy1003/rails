@@ -1,6 +1,5 @@
 class Dashboard::ItemsController < DashboardController
   def index
-    @shop = current_user.shops.first
     gon.items = @shop.items.order(modified_at: 'DESC').map do |item|
       {
         status: item.status_i18n,
@@ -15,6 +14,7 @@ class Dashboard::ItemsController < DashboardController
   end
 
   def new
+    @item = @shop.items.new
 
   end
 
