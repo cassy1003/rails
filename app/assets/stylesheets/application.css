@@ -38,3 +38,8 @@
 .navbar-top .navbar-brand {
   display: block;
 }
+
+.modal.active {
+  display: block;
+}
+

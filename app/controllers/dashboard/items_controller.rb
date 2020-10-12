@@ -15,7 +15,6 @@ class Dashboard::ItemsController < DashboardController
 
   def new
     @item = @shop.items.new
-
   end
 
   def edit
