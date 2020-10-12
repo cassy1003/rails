@@ -30,4 +30,9 @@ class Dashboard::ItemsController < DashboardController
     flash[:notice] = '読み込みが完了しました'
     redirect_to action: :index
   end
+
+  def load_supplier_data
+    result = Scraping.load(params[:url])
+    render json: result
+  end
 end

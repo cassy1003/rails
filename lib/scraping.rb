@@ -1,16 +1,15 @@
 require 'mechanize'
 
 class Scraping
-  def self.scrape(url = nil)
-    url ||= ItemSupplier.find(2).url
+  def self.load(url)
     if url.include?('taobao')
-      scrape_taobao(url)
+      load_taobao(url)
     elsif url.include?('tmall')
-      scrape_tmall(url)
+      load_tmall(url)
     end
   end
 
-  def self.scrape_taobao(url)
+  def self.load_taobao(url)
     result = {}
     agent = Mechanize.new
     page = agent.get(url)
@@ -33,7 +32,7 @@ class Scraping
     result
   end
 
-  def self.scrape_tmall(url)
+  def self.load_tmall(url)
     result = {}
     agent = Mechanize.new
     page = agent.get(url)
@@ -47,7 +46,7 @@ class Scraping
     els = page.search('ul[data-property="尺码"] li span')
     result[:size_list] = els.map { |el| el.inner_text }
 
-    els = page.search('ul[data-property="主要颜色"] li span')
+    els = page.search('ul[data-property*="颜色"] li span')
     result[:color_list] = els.map { |el| el.inner_text }
 
     els = page.search('.tb-thumb li img')

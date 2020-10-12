@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   namespace :dashboard do
     resources :items do
       post :import_csv, on: :collection
+      post :load_supplier_data, on: :collection
     end
     resources :orders, only: [:index] do
       post :load_detail, on: :collection
