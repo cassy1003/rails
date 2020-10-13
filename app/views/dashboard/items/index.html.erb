@@ -1,6 +1,6 @@
 <% content_for :header_body do %>
   <div class="row mb-3">
-    <div class="col-12">
+    <div class="col-5">
       <!-- Button trigger modal -->
       <button type="button" class="btn btn-icon btn-neutral" data-toggle="modal" data-target="#uploadCsvModal">
         <span class="btn-inner--icon"><i class="fas fa-upload"></i></span>
@@ -32,6 +32,11 @@
         </div>
       </div>
     </div>
+    <div class="col-2">
+    </div>
+    <div class="col-5 text-right">
+      <a href="<%= new_dashboard_item_path %>" class="btn btn-icon btn-neutral"><%= t '.create_item' %></a>
+    </div>
   </div>
 <% end %>
 
@@ -54,8 +59,11 @@
             </small>
           </div>
         </div>
+        <div class="card-body" v-if="items.length == 0">
+          商品がありません。
+        </div>
         <!-- Light table -->
-        <div class="table-responsive">
+        <div class="table-responsive" v-else>
           <table id="items_table" class="table table-sm align-items-center table-flush">
             <thead class="thead-light">
               <tr>

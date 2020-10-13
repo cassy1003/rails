@@ -83,7 +83,7 @@
               <% 4.times do |idx| %>
                 <div class="form-group">
                   <label class="form-control-label" for="input-supplier<%= idx + 1 %>"><%= t '.supplier' %><%= idx + 1 %></label>
-                  <input type="text" id="input-supplier<%= idx + 1 %>" class="form-control">
+                  <input type="text" id="input-supplier<%= idx + 1 %>" class="form-control" :value="<%= idx %> == 0 ? supplier : ''">
                 </div>
               <% end %>
             </div>

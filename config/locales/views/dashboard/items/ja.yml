@@ -3,6 +3,7 @@ ja:
     items:
       index:
         csv_upload: CSVファイルをアップロード
+        create_item: 新規登録
         select_file: ファイル選択
         upload_file: ファイルを読み込む
         modal_close: 閉じる
