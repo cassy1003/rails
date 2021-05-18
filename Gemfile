@@ -4,7 +4,7 @@ ruby '~> 2.7.1'
 
 gem 'rails', '~> 6.0.1'
 gem 'pg'
-gem 'puma', '~> 3.0'
+gem 'puma', '~> 4.3'
 
 gem 'config'
 
